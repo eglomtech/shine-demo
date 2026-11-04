@@ -636,7 +636,7 @@ function sending(on){var b=$('#send');b.disabled=on;b.innerHTML=on?'<i class="sp
 function showErr(){var e=$('#err');e.innerHTML=esc(t(navigator.onLine?'We could not send your request. Check your connection and try again, or call us.':'You are offline. Connect to the internet and try again, or call us.'))+' <button type="button" id="retry">'+t('Try again')+'</button> <a href="tel:+251911210222" style="font-weight:700;text-decoration:underline">'+t('Call us')+'</a>';e.classList.add('on')}
 /* ---- save ---- */
 function load(src){return new Promise(function(r,j){var s=document.createElement('script');s.src=src;s.onload=r;s.onerror=j;document.head.appendChild(s)})}
-var fbP=null,ALERT_URL='https://script.google.com/macros/s/AKfycbxU0N85l9nG4qJr_kANFuKHp6HQyqKQoagA9bvPJVJsG_tJll20VIKLkDJ1pr-HnAmZ/exec';/* paste the Google Apps Script web app link here for Telegram alerts */
+var fbP=null,ALERT_URL='https://script.google.com/macros/s/AKfycbx7s3FxM_dJDajes85qgTvXfdzYVJXilKHRuhINQmL9RGl9rn5yay8JevUhcbviiL8X/exec';/* paste the Google Apps Script web app link here for Telegram alerts */
 function fbReady(){var v='https://www.gstatic.com/firebasejs/10.12.2/';fbP=fbP||load(v+'firebase-app-compat.js').then(function(){return load(v+'firebase-firestore-compat.js')}).catch(function(e){fbP=null;throw e});return fbP.then(function(){if(!firebase.apps.length)firebase.initializeApp(FIREBASE_CONFIG)})}
 function save(data){
   if(!FIREBASE_CONFIG.apiKey){console.log('Request (Firebase not set up):',data);return Promise.resolve()}
