@@ -1,0 +1,2691 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Shine Catering</title>
+    <link rel="manifest" href="manifest.webmanifest" />
+    <meta name="theme-color" content="#26282B" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="apple-touch-icon" href="images/icon-192.png" />
+    <link rel="icon" href="images/icon-192.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,600&family=Noto+Sans+Ethiopic:wght@400;500;700;800&family=DM+Sans:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --cream: #fbf7ee;
+        --sand: #f1eadb;
+        --char: #26282b;
+        --gold: #c9962b;
+        --line: #e4dbc7;
+        --bad: #b3392f;
+        --k: 1;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        background: var(--cream);
+        color: var(--char);
+        font:
+          16px/1.45 "DM Sans",
+          system-ui,
+          sans-serif;
+        -webkit-tap-highlight-color: transparent;
+      }
+      h1,
+      h2,
+      h3 {
+        font-family: "Cormorant Garamond", Georgia, serif;
+        font-style: italic;
+        font-weight: 600;
+        line-height: 1.1;
+      }
+      button,
+      input,
+      select,
+      textarea {
+        font: inherit;
+        color: inherit;
+      }
+      button {
+        cursor: pointer;
+        border: 0;
+        background: none;
+      }
+      :focus-visible {
+        outline: 3px solid var(--gold);
+        outline-offset: 2px;
+      }
+
+      /* splash */
+      #splash {
+        position: fixed;
+        inset: 0;
+        z-index: 50;
+        background: var(--cream);
+        display: grid;
+        place-items: center;
+        transition: transform 0.75s cubic-bezier(0.7, 0, 0.2, 1);
+        cursor: pointer;
+      }
+      #splash.out {
+        transform: translateY(-100%);
+      }
+      #logo {
+        width: min(78vmin, 420px);
+        height: auto;
+        overflow: visible;
+      }
+      .ring {
+        fill: none;
+        stroke: var(--char);
+        stroke-width: 3;
+        stroke-dasharray: 1;
+        stroke-dashoffset: 1;
+        animation: draw calc(0.9s * var(--k)) cubic-bezier(0.5, 0, 0.2, 1)
+          forwards;
+      }
+      .ray {
+        fill: var(--gold);
+        transform-box: fill-box;
+        transform-origin: 50% 100%;
+        transform: scaleY(0);
+        animation: pop calc(0.45s * var(--k)) cubic-bezier(0.3, 1.5, 0.5, 1)
+          forwards;
+        animation-delay: calc((0.7s + var(--i) * 0.1s) * var(--k));
+      }
+      .mono {
+        fill: none;
+        stroke: var(--char);
+        stroke-width: 17;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-dasharray: 1;
+        stroke-dashoffset: 1;
+        animation: draw calc(0.8s * var(--k)) ease-in-out forwards;
+      }
+      .mono.s {
+        animation-delay: calc(1.1s * var(--k));
+      }
+      .mono.c {
+        animation-delay: calc(1.4s * var(--k));
+      }
+      .bowl {
+        fill: var(--char);
+        opacity: 0;
+        transform: translateY(14px);
+        animation: rise calc(0.5s * var(--k)) ease-out calc(1.7s * var(--k))
+          forwards;
+      }
+      .bowl-line {
+        stroke: var(--gold);
+        stroke-width: 3;
+        stroke-linecap: round;
+        stroke-dasharray: 1;
+        stroke-dashoffset: 1;
+        animation: draw calc(0.4s * var(--k)) ease-out calc(2s * var(--k))
+          forwards;
+      }
+      .arc-text {
+        opacity: 0;
+        fill: var(--char);
+        animation: fade calc(0.6s * var(--k)) ease-out calc(1.9s * var(--k))
+          forwards;
+      }
+      .am {
+        font-family: "Noto Sans Ethiopic", sans-serif;
+        font-weight: 800;
+        font-size: 27px;
+      }
+      .en {
+        font-family: "Cormorant Garamond", Georgia, serif;
+        font-style: italic;
+        font-weight: 600;
+        font-size: 30px;
+        letter-spacing: 2px;
+      }
+      .glow {
+        opacity: 0;
+        transform-box: fill-box;
+        transform-origin: center;
+        animation: glow calc(0.9s * var(--k)) ease-out calc(2.1s * var(--k))
+          forwards;
+      }
+      #bar {
+        position: absolute;
+        left: 50%;
+        bottom: 11vh;
+        width: min(46vw, 220px);
+        height: 3px;
+        background: rgba(38, 40, 43, 0.12);
+        transform: translateX(-50%);
+        border-radius: 2px;
+        overflow: hidden;
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+      #bar.on {
+        opacity: 1;
+      }
+      #bar i {
+        display: block;
+        height: 100%;
+        width: 40%;
+        background: var(--gold);
+        animation: slide 1.1s ease-in-out infinite;
+      }
+      @keyframes draw {
+        to {
+          stroke-dashoffset: 0;
+        }
+      }
+      @keyframes pop {
+        to {
+          transform: scaleY(1);
+        }
+      }
+      @keyframes rise {
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      @keyframes fade {
+        to {
+          opacity: 1;
+        }
+      }
+      @keyframes glow {
+        0% {
+          opacity: 0;
+          transform: scale(0.4);
+        }
+        45% {
+          opacity: 0.85;
+          transform: scale(1);
+        }
+        100% {
+          opacity: 0;
+          transform: scale(1.5);
+        }
+      }
+      @keyframes slide {
+        0% {
+          transform: translateX(-110%);
+        }
+        100% {
+          transform: translateX(260%);
+        }
+      }
+      @keyframes up {
+        from {
+          opacity: 0;
+          transform: translateY(18px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      @keyframes sheet {
+        from {
+          transform: translateY(100%);
+        }
+        to {
+          transform: none;
+        }
+      }
+      @keyframes pulse {
+        50% {
+          transform: scale(1.25);
+        }
+      }
+
+      /* app shell */
+      #app {
+        max-width: 520px;
+        margin: 0 auto;
+        min-height: 100%;
+        padding: 0 0 calc(90px + env(safe-area-inset-bottom));
+        opacity: 0;
+      }
+      #app.show {
+        opacity: 1;
+        transition: opacity 0.5s;
+      }
+      .scr {
+        display: none;
+        padding: 8px 20px 24px;
+      }
+      .scr.on {
+        display: block;
+        animation: up 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+      .sub {
+        opacity: 0.7;
+      }
+      .sm {
+        font-size: 14px;
+      }
+
+      /* top bar */
+      #top {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: calc(10px + env(safe-area-inset-top)) 16px 10px;
+        background: rgba(251, 247, 238, 0.92);
+        backdrop-filter: blur(10px);
+      }
+      #top b {
+        font:
+          italic 600 25px "Cormorant Garamond",
+          Georgia,
+          serif;
+      }
+      .ib {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: #fff;
+        border: 1px solid var(--line);
+        display: grid;
+        place-items: center;
+        transition: transform 0.15s;
+      }
+      .ib:active {
+        transform: scale(0.92);
+      }
+      .ib svg {
+        width: 22px;
+        height: 22px;
+        fill: none;
+        stroke: var(--char);
+        stroke-width: 1.8;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .ib.gold {
+        background: var(--gold);
+        border-color: var(--gold);
+      }
+      .ib.gold svg {
+        stroke: #fff;
+      }
+
+      /* home */
+      .hero {
+        position: relative;
+        overflow: hidden;
+        border-radius: 26px;
+        min-height: 360px;
+        display: flex;
+        align-items: flex-end;
+        color: var(--cream);
+        background:
+          radial-gradient(
+            circle at 82% 18%,
+            rgba(201, 150, 43, 0.6),
+            transparent 52%
+          ),
+          linear-gradient(160deg, #6a3118, #26282b 72%);
+      }
+      .hb {
+        position: absolute;
+        right: -30px;
+        top: 22px;
+        width: 230px;
+        fill: rgba(251, 247, 238, 0.16);
+      }
+      .hin {
+        position: relative;
+        padding: 26px 22px 24px;
+      }
+      .eyebrow {
+        display: inline-block;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 10px;
+      }
+      .hero h1 {
+        font-size: 44px;
+        margin-bottom: 10px;
+      }
+      .hero p {
+        opacity: 0.85;
+        max-width: 30ch;
+        margin-bottom: 20px;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 15px 28px;
+        border-radius: 999px;
+        background: var(--gold);
+        color: #fff;
+        font-weight: 700;
+        box-shadow: 0 8px 20px rgba(201, 150, 43, 0.35);
+        transition:
+          transform 0.15s,
+          filter 0.2s;
+      }
+      .btn:hover {
+        filter: brightness(1.08);
+      }
+      .btn:active {
+        transform: scale(0.96);
+      }
+      .btn.dark {
+        background: var(--char);
+        box-shadow: 0 8px 20px rgba(38, 40, 43, 0.25);
+      }
+      .btn.wide {
+        width: 100%;
+      }
+      .btn.line {
+        background: none;
+        border: 1.5px solid var(--char);
+        color: var(--char);
+        box-shadow: none;
+      }
+      h2 {
+        font-size: 30px;
+        margin: 28px 0 12px;
+      }
+      .rail {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        padding: 4px 0 18px;
+      }
+      .rail .pk:last-child:nth-child(odd) {
+        grid-column: 1/-1;
+      }
+      .pk {
+        position: relative;
+        overflow: hidden;
+        height: 270px;
+        border-radius: 22px;
+        text-align: left;
+        color: var(--cream);
+        background-image:
+          var(--img, none), linear-gradient(155deg, var(--a), var(--b));
+        background-size: cover;
+        background-position: center;
+        box-shadow: 0 14px 30px rgba(38, 40, 43, 0.22);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        transition: transform 0.2s;
+      }
+
+      .pk::before{
+        content: "";
+        position: absolute;
+        background: linear-gradient(155deg, var(--a), var(--b));
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 10%;
+        transition: 0.35s ease-out;
+        opacity: .34;
+      }
+
+      .pk:hover::before{
+        height: 100%;
+      }
+
+      .pk:active {
+        transform: scale(0.97);
+      }
+      .pk.img .pi {
+        display: none;
+      }
+      .pk .pi {
+        position: absolute;
+        left: 50%;
+        top: 34px;
+        width: 84px;
+        transform: translateX(-50%);
+        fill: rgba(255, 255, 255, 0.88);
+      }
+      .pk::after {
+        content: "";
+        position: absolute;
+        inset: auto 0 0 0;
+        height: 100%;
+        background: linear-gradient(#141416d3, transparent, #141416d3);
+      }
+      .pt {
+        position: relative;
+        z-index: 1;
+        padding: 14px;
+      }
+      .pt h3 {
+        font-size: 22px;
+      }
+      .pt span {
+        display: block;
+        font-size: 13px;
+        opacity: 0.8;
+        margin-top: 4px;
+      }
+      .cnt {
+        position: absolute;
+        z-index: 1;
+        top: 12px;
+        right: 12px;
+        background: var(--gold);
+        color: #fff;
+        font-size: 12px;
+        font-weight: 700;
+        border-radius: 999px;
+        padding: 4px 11px;
+      }
+      .steps {
+        display: grid;
+        gap: 10px;
+        margin-top: 6px;
+      }
+      .steps p {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+      }
+      .steps i {
+        flex: none;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: var(--sand);
+        display: grid;
+        place-items: center;
+        font: 700 13px "DM Sans";
+      }
+
+      /* detail */
+      .back {
+        display: inline-flex;
+        gap: 6px;
+        align-items: center;
+        font-weight: 500;
+        margin-bottom: 10px;
+        opacity: 0.75;
+      }
+      .pills {
+        position: sticky;
+        top: 0;
+        z-index: 5;
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        padding: 10px 20px;
+        margin: 0 -20px 4px;
+        background: var(--cream);
+        scrollbar-width: none;
+      }
+      .pills::-webkit-scrollbar {
+        display: none;
+      }
+      .pills button {
+        flex: none;
+        padding: 8px 16px;
+        border-radius: 999px;
+        border: 1.5px solid var(--line);
+        background: #fff;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.2s;
+      }
+      .pills button.on {
+        background: var(--char);
+        border-color: var(--char);
+        color: var(--cream);
+      }
+      .sec h3 {
+        font-size: 24px;
+        margin: 20px 0 8px;
+        scroll-margin-top: 64px;
+      }
+      .dish {
+        display: grid;
+        grid-template-columns: 54px 1fr;
+        gap: 12px;
+        align-items: center;
+        padding: 10px;
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        margin-bottom: 8px;
+        transition:
+          opacity 0.25s,
+          transform 0.2s;
+      }
+      .dish.rm {
+        opacity: 0.45;
+      }
+      .dish.rm .nm {
+        text-decoration: line-through;
+      }
+      .dish.sw {
+        border-color: var(--gold);
+        background: #fffbf1;
+      }
+      .ph {
+        width: 54px;
+        height: 54px;
+        border-radius: 12px;
+        background: var(--sand);
+        display: grid;
+        place-items: center;
+      }
+      .ph svg {
+        width: 28px;
+        fill: #cdbf9f;
+      }
+      .nm {
+        font-weight: 500;
+        line-height: 1.25;
+      }
+      .tag {
+        display: inline-block;
+        font-size: 11.5px;
+        font-weight: 700;
+        background: var(--gold);
+        color: #fff;
+        border-radius: 6px;
+        padding: 1px 7px;
+        margin-top: 3px;
+      }
+      .acts {
+        display: flex;
+        gap: 8px;
+        margin-top: 6px;
+      }
+      .acts button {
+        font-size: 13px;
+        font-weight: 700;
+        padding: 5px 13px;
+        border-radius: 999px;
+        border: 1.5px solid var(--line);
+        transition: all 0.15s;
+      }
+      .acts button:hover {
+        border-color: var(--char);
+      }
+      .acts button:active {
+        transform: scale(0.93);
+      }
+      .cta {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: calc(16px + env(safe-area-inset-bottom));
+        z-index: 15;
+        display: flex;
+        justify-content: center;
+        padding: 0 20px;
+        pointer-events: none;
+        transform: translateY(160%);
+        transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+      .cta.on {
+        transform: none;
+      }
+      .cta .btn {
+        pointer-events: auto;
+        width: 100%;
+        max-width: 480px;
+        box-shadow: 0 10px 26px rgba(38, 40, 43, 0.28);
+      }
+
+      /* form */
+      .card {
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 16px 18px;
+        margin: 12px 0;
+      }
+      .card h3 {
+        font-size: 24px;
+      }
+      .card ul {
+        margin: 8px 0 0 18px;
+        font-size: 14px;
+      }
+      label {
+        display: block;
+        font-weight: 500;
+        font-size: 14px;
+        margin: 14px 0 6px;
+      }
+      input,
+      select,
+      textarea {
+        width: 100%;
+        padding: 13px 14px;
+        border: 1.5px solid var(--line);
+        border-radius: 12px;
+        background: #fff;
+        transition: border-color 0.2s;
+      }
+      input:focus,
+      select:focus,
+      textarea:focus {
+        outline: none;
+        border-color: var(--gold);
+      }
+      .bad {
+        border-color: var(--bad) !important;
+      }
+      .row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      fieldset {
+        border: 0;
+        padding: 0;
+      }
+      legend {
+        font-family: "Cormorant Garamond", serif;
+        font-style: italic;
+        font-weight: 600;
+        font-size: 26px;
+        margin: 24px 0 0;
+      }
+      .err {
+        color: var(--bad);
+        font-size: 14px;
+        margin-top: 12px;
+        display: none;
+      }
+      .err.on {
+        display: block;
+      }
+      .ok {
+        width: 78px;
+        height: 78px;
+        border-radius: 50%;
+        background: var(--gold);
+        display: grid;
+        place-items: center;
+        margin: 20px auto 14px;
+        animation: pop2 0.6s cubic-bezier(0.3, 1.6, 0.5, 1);
+      }
+      .ok svg {
+        width: 38px;
+        stroke: #fff;
+        fill: none;
+        stroke-width: 3.2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      @keyframes pop2 {
+        from {
+          transform: scale(0);
+        }
+      }
+
+      /* form steps */
+      .prog {
+        display: flex;
+        gap: 6px;
+        margin: 16px 0 6px;
+      }
+      .prog i {
+        flex: 1;
+        height: 5px;
+        border-radius: 3px;
+        background: var(--line);
+        transition: background 0.3s;
+      }
+      .prog i.on {
+        background: var(--gold);
+      }
+      .stp {
+        display: none;
+      }
+      .stp.on {
+        display: block;
+        animation: up 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+      .nav2 {
+        display: flex;
+        gap: 10px;
+        margin-top: 22px;
+      }
+      .nav2 .btn {
+        flex: 1;
+      }
+
+      /* sheets */
+      #shade {
+        position: fixed;
+        inset: 0;
+        z-index: 30;
+        background: rgba(38, 40, 43, 0.5);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.25s;
+      }
+      #shade.on {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .sheet {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 31;
+        max-width: 520px;
+        margin: 0 auto;
+        background: var(--cream);
+        border-radius: 24px 24px 0 0;
+        padding: 20px 20px calc(24px + env(safe-area-inset-bottom));
+        max-height: 80vh;
+        overflow: auto;
+        display: none;
+      }
+      .sheet.on {
+        display: block;
+        animation: sheet 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+      .sheet h3 {
+        font-size: 26px;
+        margin-bottom: 12px;
+      }
+      .opt {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        text-align: left;
+        padding: 13px 14px;
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        margin-bottom: 8px;
+        transition: border-color 0.15s;
+      }
+      .opt:hover {
+        border-color: var(--gold);
+      }
+      .opt small {
+        opacity: 0.6;
+        font-size: 12px;
+        text-align: right;
+      }
+      a.call {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        text-decoration: none;
+        color: var(--cream);
+        background: var(--char);
+        padding: 16px 20px;
+        border-radius: 16px;
+        margin-bottom: 10px;
+        font-weight: 700;
+        font-size: 18px;
+      }
+      a.call span {
+        font-weight: 400;
+        font-size: 13px;
+        opacity: 0.7;
+      }
+
+      /* new detail look */
+      .dh {
+        position: relative;
+        overflow: hidden;
+        border-radius: 26px;
+        padding: 92px 22px 22px;
+        margin-bottom: 8px;
+        color: var(--cream);
+        background: linear-gradient(
+          155deg,
+          var(--a, #b5651d),
+          var(--b, #5a2e12)
+        );
+      }
+      .dh svg {
+        position: absolute;
+        right: -10px;
+        top: -6px;
+        width: 170px;
+        fill: rgba(255, 255, 255, 0.22);
+      }
+      .dh h1 {
+        position: relative;
+        font-size: 40px;
+      }
+      .dh p {
+        position: relative;
+        opacity: 0.85;
+        margin-top: 6px;
+        font-size: 14px;
+      }
+      .pills {
+        top: calc(62px + env(safe-area-inset-top));
+      }
+      .sec {
+        border-radius: 22px;
+        padding: 2px 12px 10px;
+        margin-top: 14px;
+        background: var(--sand);
+      }
+      .sec:nth-child(even) {
+        background: #f8ebc9;
+      }
+      .sec h3 {
+        margin: 14px 4px 10px;
+        scroll-margin-top: 140px;
+      }
+      .dish {
+        grid-template-columns: 52px 1fr auto;
+        border: 0;
+        border-radius: 18px;
+        box-shadow: 0 2px 8px rgba(38, 40, 43, 0.07);
+      }
+      .ph {
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        background: linear-gradient(
+          155deg,
+          var(--a, #b5651d),
+          var(--b, #5a2e12)
+        );
+      }
+      .ph svg {
+        width: 28px;
+        fill: rgba(255, 255, 255, 0.9);
+      }
+      .cadd {
+        display: flex;
+        gap: 8px;
+        margin: 0 4px 10px;
+      }
+      .cadd input {
+        flex: 1;
+        min-width: 0;
+      }
+      .cadd .btn {
+        padding: 12px 20px;
+      }
+      #secc {
+        border-radius: 22px;
+        padding: 2px 12px 10px;
+        margin-top: 14px;
+        background: #f8ebc9;
+      }
+      .more {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--sand);
+        display: grid;
+        place-items: center;
+      }
+      .more svg {
+        width: 20px;
+        fill: var(--char);
+      }
+      .rst {
+        font-size: 13px;
+        font-weight: 700;
+        padding: 7px 14px;
+        border-radius: 999px;
+        border: 1.5px solid var(--char);
+      }
+      input,
+      select,
+      textarea {
+        padding: 15px 16px;
+        border-radius: 14px;
+      }
+      .card {
+        border-radius: 22px;
+        box-shadow: 0 6px 18px rgba(38, 40, 43, 0.06);
+      }
+
+      /* v3: language, install, states, motion, responsive */
+      #top {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        gap: 8px;
+      }
+      #top .rt {
+        justify-self: end;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .brand b {
+        white-space: nowrap;
+      }
+      .tl {
+        height: 40px;
+        width: 40px;
+        object-fit: contain;
+      }
+      .lg {
+        height: 42px;
+        min-width: 42px;
+        padding: 0 12px;
+        border-radius: 999px;
+        background: #fff;
+        border: 1px solid var(--line);
+        font-weight: 700;
+        font-size: 15px;
+        font-family: "Noto Sans Ethiopic", "DM Sans", sans-serif;
+      }
+      html[lang="am"] body {
+        font-family: "Noto Sans Ethiopic", "DM Sans", system-ui, sans-serif;
+      }
+      html[lang="am"] h1,
+      html[lang="am"] h2,
+      html[lang="am"] h3,
+      html[lang="am"] legend,
+      html[lang="am"] .nope {
+        font-family: "Noto Sans Ethiopic", system-ui, sans-serif;
+        font-style: normal;
+        font-weight: 700;
+      }
+      #offline {
+        display: none;
+        background: var(--char);
+        color: var(--cream);
+        text-align: center;
+        font-size: 13px;
+        padding: 7px 12px;
+      }
+      #offline.on {
+        display: block;
+      }
+      #inst {
+        margin-top: 12px;
+        display: none;
+      }
+      #swQ {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        margin-bottom: 10px;
+      }
+      .spin {
+        width: 16px;
+        height: 16px;
+        border: 2.5px solid rgba(255, 255, 255, 0.4);
+        border-top-color: #fff;
+        border-radius: 50%;
+        display: inline-block;
+        animation: rot 0.7s linear infinite;
+      }
+      @keyframes rot {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .busy {
+        pointer-events: none;
+      }
+      .busy .stp {
+        opacity: 0.6;
+      }
+      .err button {
+        font-weight: 700;
+        text-decoration: underline;
+        color: var(--bad);
+        margin-left: 6px;
+      }
+      .hero {
+        background:
+          var(--himg, none) center/cover,
+          radial-gradient(
+            circle at 82% 18%,
+            rgba(201, 150, 43, 0.6),
+            transparent 52%
+          ),
+          linear-gradient(160deg, #6a3118, #26282b 72%);
+      }
+      .hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(transparent 15%, rgba(20, 20, 22, 0.72));
+      }
+      .hero h1 {
+        font-size: clamp(38px, 7vw, 58px);
+      }
+      .hb {
+        animation: float 7s ease-in-out infinite;
+      }
+      @keyframes float {
+        50% {
+          transform: translateY(-12px) rotate(3deg);
+        }
+      }
+      .rv {
+        opacity: 0;
+        transform: translateY(26px);
+        transition:
+          opacity 0.6s,
+          transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+      .rv.in {
+        opacity: 1;
+        transform: none;
+      }
+      .pk.in:hover {
+        transform: translateY(-5px);
+      }
+      .pk.in:active {
+        transform: scale(0.97);
+      }
+      @keyframes pop3 {
+        40% {
+          transform: scale(1.05);
+        }
+      }
+      .dish.pop {
+        animation: pop3 0.4s;
+      }
+      .ph {
+        position: relative;
+        overflow: hidden;
+      }
+      .ph img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      @media (min-width: 700px) {
+        #app {
+          max-width: 900px;
+        }
+        .scr {
+          padding: 12px 32px 32px;
+        }
+        #top {
+          padding-left: 32px;
+          padding-right: 32px;
+        }
+        .pills {
+          margin: 0 -32px 4px;
+          padding: 10px 32px;
+        }
+        .rail {
+          grid-template-columns: repeat(3, 1fr);
+          gap: 16px;
+        }
+        .rail .pk:last-child:nth-child(odd) {
+          grid-column: auto;
+        }
+        .pk {
+          height: 320px;
+        }
+        .pt h3 {
+          font-size: 24px;
+        }
+        .sec {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 10px;
+        }
+        .sec h3 {
+          grid-column: 1/-1;
+        }
+        .dish {
+          margin-bottom: 0;
+        }
+        #secc {
+          display: block;
+        }
+        #cList {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 10px;
+        }
+        .hero {
+          min-height: 440px;
+        }
+        .steps {
+          grid-template-columns: repeat(3, 1fr);
+        }
+        .steps p {
+          flex-direction: column;
+        }
+        #reqForm {
+          max-width: 640px;
+          margin: 0 auto;
+        }
+      }
+      @media (min-width: 1100px) {
+        #app {
+          max-width: 1100px;
+        }
+        .hero {
+          min-height: 520px;
+        }
+        .pk {
+          height: 360px;
+        }
+      }
+      @media (max-width: 360px) {
+        .pt h3 {
+          font-size: 19px;
+        }
+        .hero h1 {
+          font-size: 34px;
+        }
+        .lg {
+          padding: 0 8px;
+        }
+        .brand b {
+          font-size: 20px;
+        }
+      }
+      @media (max-height: 480px) and (orientation: landscape) {
+        .hero {
+          min-height: 260px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <svg width="0" height="0" style="position: absolute">
+      <symbol id="bowl" viewBox="0 0 40 30">
+        <path d="M3 12h34l-3 3c-1 7-7 11-14 11S7 22 6 15z" />
+      </symbol>
+    </svg>
+
+    <div id="splash" role="img" aria-label="Shine Catering logo">
+      <svg id="logo" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="g">
+            <stop offset="0" stop-color="#C9962B" stop-opacity=".9" />
+            <stop offset="1" stop-color="#C9962B" stop-opacity="0" />
+          </radialGradient>
+          <path id="top" d="M 65 200 A 135 135 0 0 1 335 200" />
+          <path id="bot" d="M 40 200 A 160 160 0 0 0 360 200" />
+        </defs>
+        <circle class="glow" cx="200" cy="190" r="110" fill="url(#g)" />
+        <circle
+          class="ring"
+          cx="200"
+          cy="200"
+          r="190"
+          pathLength="1"
+          transform="rotate(-90 200 200)"
+        />
+        <g transform="rotate(-60 200 205)">
+          <path class="ray" style="--i: 0" d="M194 153 L206 153 L200 123Z" />
+        </g>
+        <g transform="rotate(-36 200 205)">
+          <path class="ray" style="--i: 1" d="M193 153 L207 153 L200 111Z" />
+        </g>
+        <g transform="rotate(-12 200 205)">
+          <path class="ray" style="--i: 2" d="M192 153 L208 153 L200 101Z" />
+        </g>
+        <g transform="rotate(12 200 205)">
+          <path class="ray" style="--i: 3" d="M192 153 L208 153 L200 101Z" />
+        </g>
+        <g transform="rotate(36 200 205)">
+          <path class="ray" style="--i: 4" d="M193 153 L207 153 L200 111Z" />
+        </g>
+        <g transform="rotate(60 200 205)">
+          <path class="ray" style="--i: 5" d="M194 153 L206 153 L200 123Z" />
+        </g>
+        <path
+          class="mono s"
+          pathLength="1"
+          d="M222 180 C206 160 166 166 166 192 C166 218 220 214 220 242 C220 268 176 266 160 246"
+        />
+        <path
+          class="mono c"
+          pathLength="1"
+          d="M246 224 C214 198 196 252 224 268 C238 276 248 270 252 262"
+        />
+        <path
+          class="bowl"
+          d="M156 286 L244 286 L240 292 C236 306 220 314 200 314 C180 314 164 306 160 292 Z"
+        />
+        <path class="bowl-line" pathLength="1" d="M170 324 L230 324" />
+        <text class="arc-text am">
+          <textPath href="#top" startOffset="50%" text-anchor="middle">
+            ሻይን የምግብ ዝግጅት
+          </textPath>
+        </text>
+        <text class="arc-text en">
+          <textPath href="#bot" startOffset="50%" text-anchor="middle">
+            SHINE CATERING
+          </textPath>
+        </text>
+      </svg>
+      <div id="bar"><i></i></div>
+    </div>
+
+    <div id="app">
+      <header id="top">
+        <button
+          class="ib"
+          id="hBack"
+          aria-label="Back"
+          style="visibility: hidden"
+        >
+          <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" /></svg></button
+        ><span class="brand"
+          ><img
+            class="tl"
+            src="images/logo.png"
+            alt=""
+            onerror="this.style.display = 'none'"
+          /><b>Shine Catering</b></span
+        >
+        <div class="rt">
+          <button class="lg" id="lang" aria-label="Language">አማ</button
+          ><button class="ib gold" data-sheet="call" aria-label="Call us">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M5 4h4l2 5-2.5 1.500a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z"
+              />
+            </svg>
+          </button>
+        </div>
+      </header>
+      <div id="offline" role="status">
+        You are offline. You can still browse the menus.
+      </div>
+      <!-- HOME -->
+      <section class="scr on" id="s-home">
+        <div class="hero">
+          <svg class="hb" viewBox="0 0 40 30"><use href="#bowl" /></svg>
+          <div class="hin">
+            <span class="eyebrow">Addis Ababa catering</span>
+            <h1>Food for your<br />biggest days</h1>
+            <p>
+              Buffets, cocktail receptions and breakfasts for weddings, meetings
+              and parties.
+            </p>
+            <button class="btn" data-scroll="homeList">See our menus</button>
+          </div>
+        </div>
+        <button class="btn line wide" id="inst" type="button">
+          Install app
+        </button>
+        <p class="sub sm" id="iosHint" style="display: none; margin-top: 8px">
+          To install: tap Share, then Add to Home Screen
+        </p>
+        <h2>Our menus</h2>
+        <div class="rail" id="homeList"></div>
+        <h2>How it works</h2>
+        <div class="steps">
+          <p><i>1</i><span>Pick a menu and change any dish you like.</span></p>
+          <p>
+            <i>2</i
+            ><span
+              >Tell us the date, place and number of guests (50 or more).</span
+            >
+          </p>
+          <p>
+            <i>3</i
+            ><span>We call you to agree the final price. You pay later.</span>
+          </p>
+        </div>
+      </section>
+
+      <!-- PACKAGE DETAIL -->
+      <section class="scr" id="s-detail">
+        <div class="dh">
+          <svg viewBox="0 0 40 30"><use href="#bowl" /></svg>
+          <h1 id="dTitle"></h1>
+          <p id="dInc"></p>
+        </div>
+        <div class="pills" id="pills"></div>
+        <div id="dishes"></div>
+        <div
+          class="sec"
+          id="secc"
+          style="border-radius: 22px; padding: 2px 12px 10px; margin-top: 14px"
+        >
+          <h3>Your own dishes</h3>
+          <p class="sub sm" style="margin: 0 4px 10px">
+            Want a dish that is not on the menu? Add it here and we will include
+            it in your quote.
+          </p>
+          <div class="cadd">
+            <input id="cIn" maxlength="60" placeholder="Dish name" /><button
+              class="btn"
+              id="cBtn"
+              type="button"
+            >
+              Add
+            </button>
+          </div>
+          <div id="cList"></div>
+        </div>
+        <div style="height: 70px"></div>
+      </section>
+
+      <!-- REQUEST -->
+      <section class="scr" id="s-req">
+        <div
+          id="reqEmpty"
+          style="display: none; text-align: center; padding-top: 60px"
+        >
+          <h1 style="font-size: 36px">Pick a menu first</h1>
+          <p class="sub" style="margin: 10px 0 22px">
+            Choose the menu you want, then come back to send your request.
+          </p>
+          <button class="btn" data-go="pkgs">Choose a menu</button>
+        </div>
+        <form id="reqForm" novalidate style="display: none">
+          <h1 style="font-size: 38px">Your request</h1>
+          <div class="card" id="sum"></div>
+          <div class="prog" id="prog"><i class="on"></i><i></i><i></i></div>
+          <p class="sub sm" id="stepLbl">Step 1 of 3 · Event</p>
+          <div class="stp on" data-step="1">
+            <fieldset>
+              <legend>Your event</legend>
+              <label for="f-type">Event type</label>
+              <select id="f-type">
+                <option value="">Choose…</option>
+                <option>Wedding</option>
+                <option>Corporate event</option>
+                <option>Birthday or private party</option>
+                <option>Engagement or family event</option>
+                <option>Other</option>
+              </select>
+              <div class="row">
+                <div>
+                  <label for="f-date">Date</label
+                  ><input type="date" id="f-date" />
+                </div>
+                <div>
+                  <label for="f-time">Start time</label
+                  ><input type="time" id="f-time" />
+                </div>
+              </div>
+              <div class="row">
+                <div>
+                  <label for="f-guests">Guests (50 or more)</label
+                  ><input
+                    type="number"
+                    inputmode="numeric"
+                    id="f-guests"
+                    min="50"
+                    placeholder="50"
+                  />
+                </div>
+                <div>
+                  <label for="f-fast">Fasting guests</label
+                  ><input
+                    type="number"
+                    inputmode="numeric"
+                    id="f-fast"
+                    min="0"
+                    placeholder="0"
+                  />
+                </div>
+              </div>
+            </fieldset>
+          </div>
+          <div class="stp" data-step="2">
+            <fieldset>
+              <legend>Place and service</legend>
+              <label for="f-venue">Venue or address</label
+              ><input
+                id="f-venue"
+                autocomplete="street-address"
+                placeholder="Hall name, area, city"
+              />
+              <label for="f-serv">Service</label>
+              <select id="f-serv">
+                <option value="">Choose…</option>
+                <option>Delivery</option>
+                <option>Delivery with setup and staff</option>
+                <option>Pickup</option>
+              </select>
+              <label for="f-diet">Dietary or allergy notes</label
+              ><textarea id="f-diet" rows="2"></textarea>
+              <label for="f-notes">Special requests</label
+              ><textarea id="f-notes" rows="2"></textarea>
+            </fieldset>
+          </div>
+          <div class="stp" data-step="3">
+            <fieldset>
+              <legend>About you</legend>
+              <label for="f-name">Full name</label
+              ><input id="f-name" autocomplete="name" />
+              <label for="f-phone">Phone</label
+              ><input
+                id="f-phone"
+                type="tel"
+                autocomplete="tel"
+                placeholder="09…"
+              />
+              <label for="f-call">Best time for us to call</label
+              ><input
+                id="f-call"
+                placeholder="For example, weekdays after 2 PM"
+              />
+            </fieldset>
+          </div>
+          <p class="err" id="err" role="alert"></p>
+          <div class="nav2">
+            <button
+              type="button"
+              class="btn line"
+              id="stBack"
+              style="display: none"
+            >
+              Back</button
+            ><button type="button" class="btn dark" id="stNext">Next</button
+            ><button
+              class="btn dark"
+              id="send"
+              type="submit"
+              style="display: none"
+            >
+              Send quote request
+            </button>
+          </div>
+          <p class="sub sm" style="margin-top: 10px; text-align: center">
+            No payment now. We call you to confirm details and price.
+          </p>
+        </form>
+      </section>
+
+      <!-- DONE -->
+      <section class="scr" id="s-done">
+        <div class="ok">
+          <svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
+        </div>
+        <h1 style="font-size: 38px; text-align: center">Request received</h1>
+        <p class="sub" style="text-align: center; margin: 8px 0 16px">
+          Thank you<span id="dName"></span>. We will call you to confirm details
+          and the price.
+        </p>
+        <div class="card" id="dSum"></div>
+        <button class="btn wide dark" data-sheet="call" style="margin-top: 6px">
+          Call Shine Catering
+        </button>
+        <button class="btn wide line" id="again" style="margin-top: 10px">
+          Start a new request
+        </button>
+      </section>
+    </div>
+
+    <div class="cta" id="cta">
+      <button class="btn dark" data-go="req" id="ctaBtn">
+        Continue to request
+      </button>
+    </div>
+
+    <div id="shade"></div>
+    <div class="sheet" id="sh-call">
+      <h3>Call Shine Catering</h3>
+      <a class="call" href="tel:+251911210222"
+        >0911 21 02 22<span>Tap to call</span></a
+      >
+      <a class="call" href="tel:+251911409797"
+        >0911 40 97 97<span>Tap to call</span></a
+      >
+    </div>
+    <div class="sheet" id="sh-dm">
+      <h3 id="dmTitle"></h3>
+      <div id="dmList"></div>
+    </div>
+    <div class="sheet" id="sh-swap">
+      <h3 id="swTitle"></h3>
+      <input
+        id="swQ"
+        type="search"
+        placeholder="Search dishes"
+        autocomplete="off"
+      />
+      <p class="sub sm" id="swNone" style="display: none">No dishes found</p>
+      <div id="swList"></div>
+    </div>
+
+    <script>
+      /* ---- Firebase: paste your web app config here to save requests to Firestore ---- */
+      var FIREBASE_CONFIG = {
+        apiKey: "AIzaSyBItrNj7SebgB88xlnVO1I2Us67VV_rTgM",
+        authDomain: "shine-catering.firebaseapp.com",
+        projectId: "shine-catering",
+        storageBucket: "shine-catering.firebasestorage.app",
+        messagingSenderId: "121109086833",
+        appId: "1:121109086833:web:d9a496d24f0680fb4551d0",
+      };
+
+      /* ---- Menus ---- */
+      var P = [
+        {
+          id: "std",
+          n: "Standard Buffet",
+          inc: "Includes soft drinks and water",
+          s: {
+            Starter:
+              "Beef Salad|Mixed Grain Salad|Mixed Green Salad|Tomato and Cucumber",
+            Dressings:
+              "Hot Dressing|French Dressing|Balsamic Dressing|Mustard and Tartar Sauce",
+            "Main dishes":
+              "Herb-Roasted Prime Beef|Fragrant Vegetable Pilaf Rice|Hearty Fisherman’s Fish Stew|Oven-Roasted Chicken Supreme|Golden-Crusted Fish Medallions|Classic Italian Lasagna Bolognese|Slow-Braised Hungarian-style Beef Goulash|Garden-Fresh Seasonal Vegetables à la Chef|Spicy Minced Fish with Shine Signature Sauce",
+            "Kitfo corner":
+              "Tere Kitfo|Tekul Kitfo|Gomen Kitfo|Zemamogat Kitfo|Kocho Neche ena Keye",
+            "Ethiopia corner":
+              "Doro Wat Key|Zilzil Key Wat|Zilzil Alicha Wat|Alicha Minchet Wat|Injera Nech ena Key|Mini Bread",
+            Desserts:
+              "Roll Slice|Fruit Tart|Cream Tart|Mocha Cake|Chocolate Cake|Pyramid Cake|Mini Brownies|Ram Slice Cake|Sweet Cookies",
+          },
+        },
+        {
+          id: "sig",
+          n: "Signature Buffet",
+          inc: "Includes soft drinks and water",
+          s: {
+            Starter:
+              "Tuna Salad|Cheese Salad|Chicken Salad|Spiced Beef with Balsamic Dressing|House Dressings",
+            "Main dishes":
+              "Creamy Spiced Chicken Curry|Oven-Roasted Market Vegetables|Crispy Fried Fish Fillet, Golden Style|Classic Italian Lasagna alla Bolognese|Traditional Pesto Lasagna alla Genovese|Nutty Brown Rice with Light Aromatics|Korean Style Beef Bulgogi with Sesame and Soy Glaze|Creamy Tuscan Chicken with Sun-Dried Tomatoes|Classic French Chicken Fricassee in Cream Herb Sauce|Traditional Beef Bourguignon, Slow-Braised in Red Wine",
+            "Ethiopian corner":
+              "Doro Wat Key|Yebeg Wat Key|Yebeg Wat Alicha|Gomen Besiga|Injera Key ena Nech|Mini Bread",
+            "Kitfo corner":
+              "Tere Kitfo|Lebleb Kitfo|Tikul Kitfo|Gomen Kitfo|Ayib Key ena Nech|Kocho Keye ena Neche",
+            "Live station":
+              "Shine Special Marinated Beef|Shine Special Marinated Vegetables",
+            Desserts:
+              "Eclairs|Vanilla|Tiramisu|Red Velvet|Sliced Fruits|Cheese Cake|Custard Cake|Caramel Cake|Full Chocolate Cake",
+          },
+        },
+        {
+          id: "fast",
+          n: "Fasting Buffet",
+          inc: "Includes soft drinks and water",
+          s: {
+            Salads:
+              "Mixed Green Salad|Tomato and Cucumber|Mixed Serial|Hot Dressing|Mustard and Tartar Sauce|Tuna Salad|Avocado Salad",
+            "Main dishes":
+              "Fasting Lasagna|Fasting Pasta ala Furno|Fish Cutlet|Fish Goulash|Rice with Vegetable|Steamed Vegetable|Roasted Vegetable|Penne with Tomato Sauce",
+            Traditional:
+              "ምስር ክክ ወጥ|አተር ክክ አልጫ ወጥ|ሽንብራ ዓሣ ወጥ|ሽሮ ወጥ|ጎመን ወጥ|ፍሶሊያ ካሮት|ቡጥጫ|ሱፍ ፍትፍት|አዚፍ|Nech Injera|Key Injera|Mini Bread",
+            Desserts:
+              "Mixed Fruit|Fasting Chocolate Cake|Fruit Tart|Mocha Cake|Mini Brownies|Pyramid Cake|Cream Tart|Sweet Cookies",
+          },
+        },
+        {
+          id: "cock",
+          n: "Premier Cocktail Reception",
+          inc: "Includes bottled water, soft drinks, coffee and tea",
+          s: {
+            "Savory bites":
+              "Herb-Crusted Fish Cutlets|Crispy Golden Fish Fingers|Cheese Balls on Skewers|Classic Savory Meatballs|Traditional Scotch Eggs|Tender Beef Piccata Medallions|Artisan Mini Pizza Bites|Chicken Tenders|Crispy Pan-Fried Fish Fillets|Hot and Cold Elegant Canapés|Gourmet Miniature Burgers (Sliders)|Marinated Chicken Skewers (Chicken Kebabs)|Honey BBQ Glazed Meatballs|Tomato and Basil Bruschetta Crostini|Classic Deviled Eggs with Paprika Dusting",
+            Desserts:
+              "Classic Chocolate Cake|Classic Custard Cake|White Forest Cake|French Chocolate Éclairs|Chocolate Abrico|Red Velvet Cake|Vanilla Cream Cake",
+          },
+        },
+        {
+          id: "brk",
+          n: "Continental Breakfast",
+          inc: "Tea, milk, coffee, bottled water and juices included",
+          s: {
+            "Ethiopian corner":
+              "Kinche|Chechebsa|Ful Medames|Dirkosh Firfir|Alicha Tibis Firfir",
+            "International corner":
+              "Cheese|Croissant|Pan Cake|French Toast|Oat Meal Bar|Potato Herb Roast|Toasted Breakfast Sandwiches|Herbs and Cheese Egg Muffins|Different Types of Eggs",
+          },
+        },
+      ];
+
+      /* ---- helpers ---- */
+      var $ = function (s, r) {
+          return (r || document).querySelector(s);
+        },
+        $$ = function (s, r) {
+          return Array.prototype.slice.call(
+            (r || document).querySelectorAll(s),
+          );
+        };
+      var esc = function (t) {
+        var d = document.createElement("div");
+        d.textContent = t;
+        return d.innerHTML;
+      };
+      var pkg = null,
+        items = [],
+        custom = [],
+        last = {},
+        cur = "home";
+      /* ---- language: English and Amharic ---- */
+      var LANG = "en";
+      try {
+        LANG = localStorage.getItem("shine_lang") === "am" ? "am" : "en";
+      } catch (e) {}
+      var AM = {
+        "Addis Ababa catering": "የአዲስ አበባ ምግብ ዝግጅት",
+        "Food for your": "ለትልቅ ቀናትዎ",
+        "biggest days": "የሚመጥን ምግብ",
+        "Buffets, cocktail receptions and breakfasts for weddings, meetings and parties.":
+          "ለሠርግ፣ ለስብሰባ እና ለግል ድግስ የሚሆኑ ቡፌ፣ ኮክቴል እና የቁርስ ምግቦች።",
+        "See our menus": "ምናሌዎቻችንን ይመልከቱ",
+        "Our menus": "ምናሌዎቻችን",
+        "How it works": "እንዴት ይሠራል",
+        "Pick a menu and change any dish you like.":
+          "ምናሌ ይምረጡ፤ የፈለጉትን ምግብ ይቀይሩ።",
+        "Tell us the date, place and number of guests (50 or more).":
+          "ቀኑን፣ ቦታውን እና የእንግዶችን ብዛት (ከ50 በላይ) ይንገሩን።",
+        "We call you to agree the final price. You pay later.":
+          "የመጨረሻውን ዋጋ ለመስማማት እንደውልልዎታለን። ክፍያው በኋላ ይፈጸማል።",
+        "Your own dishes": "የራስዎ ምግቦች",
+        "Your dishes": "የራስዎ ምግቦች",
+        "Want a dish that is not on the menu? Add it here and we will include it in your quote.":
+          "በምናሌው ውስጥ የሌለ ምግብ ይፈልጋሉ? እዚህ ይጨምሩት፤ በዋጋ ጥያቄዎ ውስጥ እናካትተዋለን።",
+        Add: "ጨምር",
+        "Dish name": "የምግቡ ስም",
+        "Pick a menu first": "መጀመሪያ ምናሌ ይምረጡ",
+        "Choose the menu you want, then come back to send your request.":
+          "የሚፈልጉትን ምናሌ ይምረጡ፤ ከዚያ ተመልሰው ጥያቄዎን ይላኩ።",
+        "Choose a menu": "ምናሌ ይምረጡ",
+        "Your request": "ጥያቄዎ",
+        "Your event": "ዝግጅትዎ",
+        "Place and service": "ቦታ እና አገልግሎት",
+        "About you": "ስለ እርስዎ",
+        Event: "ዝግጅት",
+        "Event type": "የዝግጅቱ ዓይነት",
+        Date: "ቀን",
+        "Start time": "የመጀመሪያ ሰዓት",
+        "Venue or address": "የዝግጅቱ ቦታ ወይም አድራሻ",
+        Service: "አገልግሎት",
+        "Guests (50 or more)": "የእንግዶች ብዛት (ከ50 በላይ)",
+        "Fasting guests": "የሚጾሙ እንግዶች",
+        "Dietary or allergy notes": "የአመጋገብ ወይም የአለርጂ ማስታወሻ",
+        "Special requests": "ልዩ ጥያቄዎች",
+        "Full name": "ሙሉ ስም",
+        Phone: "ስልክ",
+        "Best time for us to call": "ለመደወል የሚመችዎ ሰዓት",
+        "Choose…": "ይምረጡ…",
+        Wedding: "ሠርግ",
+        "Corporate event": "የድርጅት ዝግጅት",
+        "Birthday or private party": "የልደት ወይም የግል ድግስ",
+        "Engagement or family event": "የቀለበት ወይም የቤተሰብ ዝግጅት",
+        Other: "ሌላ",
+        Delivery: "ማድረስ",
+        "Delivery with setup and staff": "ማድረስ ከዝግጅት እና ከአስተናጋጆች ጋር",
+        Pickup: "ራስዎ መውሰድ",
+        "Hall name, area, city": "የአዳራሽ ስም፣ አካባቢ፣ ከተማ",
+        "For example, weekdays after 2 PM": "ለምሳሌ፣ በሥራ ቀናት ከሰዓት በኋላ",
+        Back: "ተመለስ",
+        Next: "ቀጣይ",
+        "Send quote request": "የዋጋ ጥያቄ ላክ",
+        "No payment now. We call you to confirm details and price.":
+          "አሁን ክፍያ የለም። ዝርዝሩን እና ዋጋውን ለማረጋገጥ እንደውልልዎታለን።",
+        "Request received": "ጥያቄዎ ደርሶናል",
+        "Thank you": "እናመሰግናለን",
+        ". We will call you to confirm details and the price.":
+          "። ዝርዝሩን እና ዋጋውን ለማረጋገጥ እንደውልልዎታለን።",
+        "Call Shine Catering": "ሻይን ካተሪንግን ይደውሉ",
+        "Start a new request": "አዲስ ጥያቄ ጀምር",
+        "Tap to call": "ለመደወል ይንኩ",
+        "You are offline. You can still browse the menus.":
+          "ከመስመር ውጭ ነዎት። ምናሌዎቹን ማየት ይችላሉ።",
+        "Install app": "መተግበሪያውን ጫን",
+        "To install: tap Share, then Add to Home Screen":
+          "ለመጫን፦ «አጋራ»ን ይንኩ፣ ከዚያ «ወደ መነሻ ማያ ገጽ አክል»ን ይምረጡ",
+        "Search dishes": "ምግብ ፈልግ",
+        "No dishes found": "ምንም ምግብ አልተገኘም",
+        dishes: "ምግቦች",
+        "Includes soft drinks and water": "ለስላሳ መጠጦች እና ውሃ ተካትቷል",
+        "Includes bottled water, soft drinks, coffee and tea":
+          "የታሸገ ውሃ፣ ለስላሳ መጠጦች፣ ቡና እና ሻይ ተካትተዋል",
+        "Tea, milk, coffee, bottled water and juices included":
+          "ሻይ፣ ወተት፣ ቡና፣ የታሸገ ውሃ እና ጭማቂዎች ተካትተዋል",
+        "Standard Buffet": "መደበኛ ቡፌ",
+        "Signature Buffet": "ልዩ ቡፌ",
+        "Fasting Buffet": "የጾም ቡፌ",
+        "Premier Cocktail Reception": "ፕሪሚየር ኮክቴል ግብዣ",
+        "Continental Breakfast": "ኮንቲኔንታል ቁርስ",
+        "Swapped from": "የተቀየረው ከ",
+        Restore: "መልስ",
+        Remove: "አስወግድ",
+        Swap: "ቀይር",
+        "Swap for another dish": "በሌላ ምግብ ቀይር",
+        "Remove from the menu": "ከምናሌው አስወግድ",
+        "Already included": "አስቀድሞ ተካቷል",
+        "adds a second serving": "ሁለተኛ ድርሻ ይጨምራል",
+        "Continue to request": "ወደ ጥያቄ ቀጥል",
+        change: "ለውጥ",
+        changes: "ለውጦች",
+        "Menu as listed, no changes": "ምናሌው እንዳለ፣ ምንም ለውጥ የለም",
+        "to the menu": "በምናሌው ላይ",
+        "Edit dishes": "ምግቦችን አስተካክል",
+        "Removed:": "የተወገደ፦",
+        "Swapped:": "የተቀየረ፦",
+        "Added:": "የተጨመረ፦",
+        Step: "ደረጃ",
+        of: "ከ",
+        "Sending…": "በመላክ ላይ…",
+        "Try again": "እንደገና ሞክር",
+        "We need at least 50 guests for an order.":
+          "ለአንድ ትዕዛዝ ቢያንስ 50 እንግዶች ያስፈልጉናል።",
+        "Please fill in the highlighted fields.":
+          "እባክዎ ቀይ ምልክት የተደረገባቸውን መስኮች ይሙሉ።",
+        "Please fill in the highlighted fields. We need at least 50 guests and a valid phone number.":
+          "እባክዎ ቀይ ምልክት የተደረገባቸውን መስኮች ይሙሉ። ቢያንስ 50 እንግዶች እና ትክክለኛ ስልክ ቁጥር ያስፈልጋሉ።",
+        "We could not send your request. Check your connection and try again, or call us.":
+          "ጥያቄዎን መላክ አልቻልንም። ግንኙነትዎን ይፈትሹና እንደገና ይሞክሩ፣ ወይም ይደውሉልን።",
+        "You are offline. Connect to the internet and try again, or call us.":
+          "ከመስመር ውጭ ነዎት። ከበይነመረብ ጋር ተገናኝተው እንደገና ይሞክሩ፣ ወይም ይደውሉልን።",
+      };
+      function t(s) {
+        return LANG === "am" && AM[s] ? AM[s] : s;
+      }
+      var EXCL =
+        "#splash,#homeList,#dishes,#cList,#sum,#dSum,#pills,#swList,#dmList,#ctaBtn,#send,#stepLbl,#err,#dTitle,#dInc,#swTitle,#dmTitle,#dName,.brand,script,style";
+      function walk() {
+        var w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT),
+          n,
+          all = [];
+        while ((n = w.nextNode())) all.push(n);
+        all.forEach(function (n) {
+          var p = n.parentElement;
+          if (!p || p.closest(EXCL)) return;
+          if (n._en === undefined) {
+            if (!n.nodeValue.trim()) return;
+            n._en = n.nodeValue;
+          }
+          var k = n._en.trim();
+          n.nodeValue =
+            LANG === "am" && AM[k] ? n._en.replace(k, AM[k]) : n._en;
+        });
+        $$("[placeholder]").forEach(function (e) {
+          if (e.dataset.en === undefined) e.dataset.en = e.placeholder;
+          e.placeholder = t(e.dataset.en);
+        });
+      }
+      function setLang(l) {
+        LANG = l;
+        try {
+          localStorage.setItem("shine_lang", l);
+        } catch (e) {}
+        document.documentElement.lang = l;
+        $("#lang").textContent = l === "am" ? "EN" : "አማ";
+        walk();
+        renderHome();
+        ctaText();
+        $("#send").textContent = t("Send quote request");
+        setStep(step);
+        if (pkg) {
+          $("#dTitle").textContent = t(pkg.n);
+          $("#dInc").textContent = t(pkg.inc);
+          rebuildPills();
+          renderDishes();
+          renderCustom();
+          renderReq();
+        }
+      }
+      var io =
+        window.IntersectionObserver &&
+        !matchMedia("(prefers-reduced-motion: reduce)").matches
+          ? new IntersectionObserver(
+              function (es) {
+                es.forEach(function (e) {
+                  if (e.isIntersecting) {
+                    var el = e.target;
+                    el.classList.add("in");
+                    io.unobserve(el);
+                    setTimeout(function () {
+                      el.style.transitionDelay = "";
+                    }, 900);
+                  }
+                });
+              },
+              { threshold: 0.12 },
+            )
+          : null;
+      function reveal(root) {
+        $$(".pk,.steps p,.sec", root || document).forEach(function (el, i) {
+          el.classList.add("rv");
+          el.style.transitionDelay = (i % 5) * 70 + "ms";
+          if (io) io.observe(el);
+          else el.classList.add("in");
+        });
+      }
+      var TR = {
+        "ምስር ክክ ወጥ": "misir-kik-wot",
+        "ሱፍ ፍትፍት": "suf-fitfit",
+        "ሽሮ ወጥ": "shiro-wot",
+        "ሽንብራ ዓሣ ወጥ": "shimbra-asa-wot",
+        ቡጥጫ: "butecha",
+        "አተር ክክ አልጫ ወጥ": "ater-kik-alicha-wot",
+        አዚፍ: "azif",
+        "ጎመን ወጥ": "gomen-wot",
+        "ፍሶሊያ ካሮት": "fasolia-carrot",
+      };
+      function slug(n) {
+        return (
+          TR[n] ||
+          n
+            .normalize("NFKD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .toLowerCase()
+            .replace(/\(.*?\)/g, "")
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/^-+|-+$/g, "")
+        );
+      }
+      function dimg(n) {
+        return (
+          '<img src="images/dishes/' +
+          slug(n) +
+          '.jpg" alt="" loading="lazy" onerror="this.remove()">'
+        );
+      }
+      var popI = -1,
+        popC = -1;
+
+      var COL = {
+        std: ["#B5651D", "#5A2E12"],
+        sig: ["#8C2F39", "#3B1219"],
+        fast: ["#6B7F3A", "#2F3A17"],
+        cock: ["#7A4A8C", "#2E1838"],
+        brk: ["#D9A441", "#7A4A14"],
+      };
+
+      function count(p) {
+        var n = 0;
+        for (var k in p.s) n += p.s[k].split("|").length;
+        return n;
+      }
+      function changes() {
+        return items.filter(function (i) {
+          return i.rm || i.name !== i.orig;
+        });
+      }
+
+      /* ---- navigation ---- */
+      function go(id) {
+        if (id === "pkgs") id = "home";
+        closeSheets();
+        cur = id;
+        $("#hBack").style.visibility = id === "home" ? "hidden" : "visible";
+        $$(".scr").forEach(function (s) {
+          s.classList.toggle("on", s.id === "s-" + id);
+        });
+        if (id === "req") renderReq();
+        $("#cta").classList.toggle("on", id === "detail" && !!pkg);
+        window.scrollTo(0, 0);
+      }
+      function openSheet(n) {
+        $("#shade").classList.add("on");
+        $("#sh-" + n).classList.add("on");
+      }
+      function closeSheets() {
+        $("#shade").classList.remove("on");
+        $$(".sheet").forEach(function (s) {
+          s.classList.remove("on");
+        });
+      }
+
+      document.addEventListener("click", function (e) {
+        var g = e.target.closest("[data-go]");
+        if (g) {
+          go(g.dataset.go);
+          return;
+        }
+        if (e.target.id === "retry") {
+          $("#send").click();
+          return;
+        }
+        var sc = e.target.closest("[data-scroll]");
+        if (sc) {
+          $("#" + sc.dataset.scroll).scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
+          return;
+        }
+        var s = e.target.closest("[data-sheet]");
+        if (s) {
+          openSheet(s.dataset.sheet);
+          return;
+        }
+        var o = e.target.closest("[data-open]");
+        if (o) {
+          openPkg(o.dataset.open);
+          return;
+        }
+        if (e.target.id === "shade") closeSheets();
+      });
+
+      /* ---- menu lists ---- */
+      var PKG_IMG = {
+        std: "images/packages/standard-buffet.jpg",
+        sig: "images/packages/signature-buffet.jpg",
+        fast: "images/packages/fasting-buffet.jpg",
+        cock: "images/packages/premier-cocktail-reception.jpg",
+        brk: "images/packages/continental-breakfast.jpg",
+      };
+      function listHTML() {
+        return P.map(function (p) {
+          var c = COL[p.id];
+          return (
+            '<button class="pk" data-open="' +
+            p.id +
+            '" style="--a:' +
+            c[0] +
+            ";--b:" +
+            c[1] +
+            '"><svg class="pi" viewBox="0 0 40 30"><use href="#bowl"/></svg><span class="cnt">' +
+            count(p) +
+            " " +
+            t("dishes") +
+            '</span><div class="pt"><h3>' +
+            t(p.n) +
+            "</h3><span>" +
+            t(p.inc) +
+            "</span></div></button>"
+          );
+        }).join("");
+      }
+      function renderHome() {
+        $("#homeList").innerHTML = listHTML();
+        P.forEach(function (p) {
+          var im = new Image();
+          im.onload = function () {
+            var b = $('[data-open="' + p.id + '"]');
+            if (b) {
+              b.classList.add("img");
+              b.style.setProperty("--img", 'url("' + PKG_IMG[p.id] + '")');
+            }
+          };
+          im.src = PKG_IMG[p.id];
+        });
+        reveal($("#homeList"));
+      }
+      var hi = new Image();
+      hi.onload = function () {
+        $(".hero").style.setProperty("--himg", 'url("images/hero.jpg")');
+      };
+      hi.src = "images/hero.jpg";
+      renderHome();
+      $("#hBack").addEventListener("click", function () {
+        if (cur === "req" && step > 1) {
+          setStep(step - 1);
+          window.scrollTo(0, 0);
+        } else go(cur === "req" && pkg ? "detail" : "home");
+      });
+
+      /* ---- package detail ---- */
+      function openPkg(id) {
+        var p = P.filter(function (x) {
+          return x.id === id;
+        })[0];
+        if (!pkg || pkg.id !== id) {
+          pkg = p;
+          items = [];
+          custom = [];
+          renderCustom();
+          for (var k in p.s)
+            p.s[k].split("|").forEach(function (n) {
+              items.push({ sec: k, name: n, orig: n, rm: false });
+            });
+          updateDot();
+        }
+        var cc = COL[pkg.id];
+        $("#s-detail").style.setProperty("--a", cc[0]);
+        $("#s-detail").style.setProperty("--b", cc[1]);
+        $("#dTitle").textContent = t(pkg.n);
+        $("#dInc").textContent = t(pkg.inc);
+        rebuildPills();
+        renderDishes();
+        reveal($("#dishes"));
+        go("detail");
+      }
+      function rebuildPills() {
+        $("#pills").innerHTML =
+          Object.keys(pkg.s)
+            .map(function (s, i) {
+              return (
+                '<button data-sec="' +
+                i +
+                '"' +
+                (i ? "" : ' class="on"') +
+                ">" +
+                s +
+                "</button>"
+              );
+            })
+            .join("") +
+          '<button data-sec="c">' +
+          t("Your dishes") +
+          "</button>";
+      }
+      function renderDishes() {
+        var secs = Object.keys(pkg.s),
+          h = "";
+        secs.forEach(function (s, si) {
+          h += '<div class="sec" id="sec' + si + '"><h3>' + s + "</h3>";
+          items.forEach(function (it, i) {
+            if (it.sec !== s) return;
+            var sw = !it.rm && it.name !== it.orig;
+            h +=
+              '<div class="dish' +
+              (it.rm ? " rm" : "") +
+              (sw ? " sw" : "") +
+              (i === popI ? " pop" : "") +
+              '"><div class="ph"><svg viewBox="0 0 40 30"><use href="#bowl"/></svg>' +
+              dimg(it.name) +
+              '</div><div><div class="nm">' +
+              esc(it.name) +
+              "</div>" +
+              (sw
+                ? '<span class="tag">' +
+                  t("Swapped from") +
+                  " " +
+                  esc(it.orig) +
+                  "</span>"
+                : "") +
+              "</div>" +
+              (it.rm
+                ? '<button class="rst" data-restore="' +
+                  i +
+                  '">' +
+                  t("Restore") +
+                  "</button>"
+                : '<button class="more" data-menu="' +
+                  i +
+                  '" aria-label="Swap or remove"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="19" cy="12" r="1.7"/></svg></button>') +
+              "</div>";
+          });
+          h += "</div>";
+        });
+        $("#dishes").innerHTML = h;
+        popI = -1;
+        ctaText();
+      }
+      function ctaText() {
+        var n = changes().length + custom.length;
+        $("#ctaBtn").textContent =
+          t("Continue to request") +
+          (n ? " (" + n + " " + t(n > 1 ? "changes" : "change") + ")" : "");
+      }
+      function renderCustom() {
+        $("#cList").innerHTML = custom
+          .map(function (n, i) {
+            return (
+              '<div class="dish' +
+              (i === popC ? " pop" : "") +
+              '"><div class="ph"><svg viewBox="0 0 40 30"><use href="#bowl"/></svg></div><div class="nm">' +
+              esc(n) +
+              '</div><button class="rst" data-cdel="' +
+              i +
+              '">' +
+              t("Remove") +
+              "</button></div>"
+            );
+          })
+          .join("");
+        popC = -1;
+        ctaText();
+      }
+      function addCustom() {
+        var v = $("#cIn").value.trim();
+        if (!v || custom.length >= 20) return;
+        custom.push(v);
+        popC = custom.length - 1;
+        $("#cIn").value = "";
+        renderCustom();
+      }
+      $("#cBtn").addEventListener("click", addCustom);
+      $("#cIn").addEventListener("keydown", function (e) {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          addCustom();
+        }
+      });
+      $("#cList").addEventListener("click", function (e) {
+        var b = e.target.closest("[data-cdel]");
+        if (!b) return;
+        custom.splice(+b.dataset.cdel, 1);
+        renderCustom();
+      });
+      function act(d) {
+        if (d.remove !== undefined) {
+          items[d.remove].rm = true;
+          popI = +d.remove;
+        } else if (d.restore !== undefined) {
+          items[d.restore].rm = false;
+          popI = +d.restore;
+        } else if (d.swap !== undefined) {
+          return openSwap(+d.swap);
+        }
+        updateDot();
+        renderDishes();
+      }
+      function openDm(i) {
+        $("#dmTitle").textContent = items[i].name;
+        $("#dmList").innerHTML =
+          '<button class="opt" data-swap="' +
+          i +
+          '"><span>' +
+          t("Swap for another dish") +
+          '</span></button><button class="opt" data-remove="' +
+          i +
+          '"><span>' +
+          t("Remove from the menu") +
+          "</span></button>";
+        openSheet("dm");
+      }
+      $("#dishes").addEventListener("click", function (e) {
+        var b = e.target.closest("button");
+        if (!b) return;
+        var d = b.dataset;
+        if (d.menu !== undefined) return openDm(+d.menu);
+        act(d);
+      });
+      $("#dmList").addEventListener("click", function (e) {
+        var b = e.target.closest("button");
+        if (!b) return;
+        closeSheets();
+        act(b.dataset);
+      });
+      $("#pills").addEventListener("click", function (e) {
+        var b = e.target.closest("button");
+        if (!b) return;
+        $$("#pills button").forEach(function (x) {
+          x.classList.toggle("on", x === b);
+        });
+        var t = $("#sec" + b.dataset.sec);
+        if (t) t.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+
+      /* ---- swap sheet: any other dish of this menu ---- */
+      function openSwap(i) {
+        var cur = items[i],
+          here = {};
+        items.forEach(function (x) {
+          if (!x.rm) here[x.name] = 1;
+        });
+        var pool = [],
+          seen = {};
+        items.forEach(function (x) {
+          if (!seen[x.orig]) {
+            seen[x.orig] = 1;
+            pool.push(x.orig);
+          }
+        });
+        $("#swTitle").textContent = t("Swap") + " " + cur.name;
+        $("#swQ").value = "";
+        last = { i: i, pool: pool, cur: cur.name, here: here };
+        drawSwap();
+        openSheet("swap");
+      }
+      function drawSwap() {
+        var q = $("#swQ").value.trim().toLowerCase(),
+          L = last,
+          n = 0;
+        $("#swList").innerHTML = L.pool
+          .filter(function (x) {
+            return x !== L.cur && x.toLowerCase().indexOf(q) > -1;
+          })
+          .map(function (x) {
+            n++;
+            return (
+              '<button class="opt" data-pick="' +
+              L.pool.indexOf(x) +
+              '"><span>' +
+              esc(x) +
+              "</span>" +
+              (L.here[x]
+                ? "<small>" +
+                  t("Already included") +
+                  "<br>" +
+                  t("adds a second serving") +
+                  "</small>"
+                : "") +
+              "</button>"
+            );
+          })
+          .join("");
+        $("#swNone").style.display = n ? "none" : "block";
+      }
+      $("#swQ").addEventListener("input", drawSwap);
+      $("#swList").addEventListener("click", function (e) {
+        var b = e.target.closest("[data-pick]");
+        if (!b) return;
+        items[last.i].name = last.pool[+b.dataset.pick];
+        popI = last.i;
+        closeSheets();
+        updateDot();
+        renderDishes();
+      });
+
+      function updateDot() {}
+
+      /* ---- request ---- */
+      function changeLines() {
+        var out = [];
+        items.forEach(function (i) {
+          if (i.rm) out.push(t("Removed:") + " " + i.orig);
+          else if (i.name !== i.orig)
+            out.push(t("Swapped:") + " " + i.orig + " → " + i.name);
+        });
+        custom.forEach(function (n) {
+          out.push(t("Added:") + " " + n);
+        });
+        return out;
+      }
+      function renderReq() {
+        $("#reqEmpty").style.display = pkg ? "none" : "block";
+        $("#reqForm").style.display = pkg ? "block" : "none";
+        if (!pkg) return;
+        var c = changeLines();
+        $("#sum").innerHTML =
+          "<h3>" +
+          esc(t(pkg.n)) +
+          '</h3><p class="sub sm">' +
+          (c.length
+            ? c.length +
+              " " +
+              t(c.length > 1 ? "changes" : "change") +
+              " " +
+              t("to the menu")
+            : t("Menu as listed, no changes")) +
+          "</p>" +
+          (c.length
+            ? "<ul>" +
+              c
+                .map(function (x) {
+                  return "<li>" + esc(x) + "</li>";
+                })
+                .join("") +
+              "</ul>"
+            : "") +
+          '<button type="button" class="back" data-go="detail" style="margin:10px 0 0">' +
+          t("Edit dishes") +
+          "</button>";
+      }
+      var today = new Date();
+      today.setMinutes(today.getMinutes() - today.getTimezoneOffset());
+      $("#f-date").min = today.toISOString().slice(0, 10);
+
+      var step = 1,
+        SM = {
+          1: ["type", "date", "time", "guests"],
+          2: ["venue", "serv"],
+          3: ["name", "phone"],
+        },
+        LBL = ["Event", "Place and service", "About you"];
+      function stepOf(k) {
+        for (var n in SM) if (SM[n].indexOf(k) > -1) return +n;
+      }
+      function isBad(k) {
+        var v = $("#f-" + k).value.trim();
+        if (k === "guests") return !(+v >= 50);
+        if (k === "phone") return v.replace(/\D/g, "").length < 9;
+        return !v;
+      }
+      function setStep(n) {
+        step = n;
+        $$("#reqForm .stp").forEach(function (x) {
+          x.classList.toggle("on", +x.dataset.step === n);
+        });
+        $$("#prog i").forEach(function (x, i) {
+          x.classList.toggle("on", i < n);
+        });
+        $("#stepLbl").textContent =
+          t("Step") + " " + n + " " + t("of") + " 3 \u00b7 " + t(LBL[n - 1]);
+        $("#stBack").style.display = n > 1 ? "" : "none";
+        $("#stNext").style.display = n < 3 ? "" : "none";
+        $("#send").style.display = n === 3 ? "" : "none";
+        $("#err").classList.remove("on");
+      }
+      $("#stBack").addEventListener("click", function () {
+        setStep(step - 1);
+        window.scrollTo(0, 0);
+      });
+      $("#stNext").addEventListener("click", function () {
+        $$("#reqForm .bad").forEach(function (x) {
+          x.classList.remove("bad");
+        });
+        var bad = SM[step].filter(isBad),
+          err = $("#err");
+        if (bad.length) {
+          bad.forEach(function (k) {
+            $("#f-" + k).classList.add("bad");
+          });
+          err.textContent = t(
+            bad.length === 1 && bad[0] === "guests"
+              ? "We need at least 50 guests for an order."
+              : "Please fill in the highlighted fields.",
+          );
+          err.classList.add("on");
+          $("#f-" + bad[0]).focus();
+          return;
+        }
+        setStep(step + 1);
+        window.scrollTo(0, 0);
+      });
+
+      $("#reqForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+        if (step < 3) {
+          $("#stNext").click();
+          return;
+        }
+        var f = function (id) {
+            return $("#f-" + id).value.trim();
+          },
+          bad = [],
+          need = {
+            type: "event type",
+            date: "date",
+            time: "start time",
+            venue: "venue",
+            serv: "service",
+            name: "name",
+          };
+        $$("#reqForm .bad").forEach(function (x) {
+          x.classList.remove("bad");
+        });
+        for (var k in need) if (!f(k)) bad.push(k);
+        if (!(+f("guests") >= 50)) bad.push("guests");
+        if (f("phone").replace(/\D/g, "").length < 9) bad.push("phone");
+        var err = $("#err");
+        if (bad.length) {
+          bad.forEach(function (k) {
+            $("#f-" + k).classList.add("bad");
+          });
+          setStep(stepOf(bad[0]));
+          err.textContent = t(
+            bad.indexOf("guests") > -1 && bad.length === 1
+              ? "We need at least 50 guests for an order."
+              : "Please fill in the highlighted fields. We need at least 50 guests and a valid phone number.",
+          );
+          err.classList.add("on");
+          $("#f-" + bad[0]).focus();
+          return;
+        }
+        err.classList.remove("on");
+        var data = {
+          status: "new",
+          package: pkg.n,
+          custom: custom.slice(),
+          removed: items
+            .filter(function (i) {
+              return i.rm;
+            })
+            .map(function (i) {
+              return i.orig;
+            }),
+          swapped: items
+            .filter(function (i) {
+              return !i.rm && i.name !== i.orig;
+            })
+            .map(function (i) {
+              return { from: i.orig, to: i.name };
+            }),
+          event: {
+            type: f("type"),
+            date: f("date"),
+            time: f("time"),
+            venue: f("venue"),
+            service: f("serv"),
+            guests: +f("guests"),
+            fastingGuests: +f("fast") || 0,
+            dietary: f("diet"),
+            requests: f("notes"),
+          },
+          customer: {
+            name: f("name"),
+            phone: f("phone"),
+            bestTimeToCall: f("call"),
+          },
+        };
+        var btn = $("#send");
+        sending(true);
+        save(data)
+          .then(function () {
+            $("#dName").textContent = data.customer.name
+              ? ", " + data.customer.name.split(" ")[0]
+              : "";
+            var c = changeLines();
+            $("#dSum").innerHTML =
+              "<h3>" +
+              esc(t(pkg.n)) +
+              '</h3><p class="sub sm">' +
+              esc(data.event.type) +
+              " · " +
+              esc(data.event.date) +
+              " at " +
+              esc(data.event.time) +
+              "<br>" +
+              data.event.guests +
+              " guests · " +
+              esc(data.event.service) +
+              "<br>" +
+              esc(data.event.venue) +
+              "</p>" +
+              (c.length
+                ? "<ul>" +
+                  c
+                    .map(function (x) {
+                      return "<li>" + esc(x) + "</li>";
+                    })
+                    .join("") +
+                  "</ul>"
+                : "");
+            go("done");
+          })
+          .catch(function () {
+            showErr();
+          })
+          .then(function () {
+            sending(false);
+          });
+      });
+
+      $("#again").addEventListener("click", function () {
+        pkg = null;
+        items = [];
+        custom = [];
+        renderCustom();
+        $("#reqForm").reset();
+        setStep(1);
+        updateDot();
+        go("pkgs");
+      });
+
+      function sending(on) {
+        var b = $("#send");
+        b.disabled = on;
+        b.innerHTML = on
+          ? '<i class="spin"></i> ' + t("Sending…")
+          : t("Send quote request");
+        $("#reqForm").classList.toggle("busy", on);
+        if (on) $("#err").classList.remove("on");
+      }
+      function showErr() {
+        var e = $("#err");
+        e.innerHTML =
+          esc(
+            t(
+              navigator.onLine
+                ? "We could not send your request. Check your connection and try again, or call us."
+                : "You are offline. Connect to the internet and try again, or call us.",
+            ),
+          ) +
+          ' <button type="button" id="retry">' +
+          t("Try again") +
+          "</button>";
+        e.classList.add("on");
+      }
+      /* ---- save ---- */
+      function load(src) {
+        return new Promise(function (r, j) {
+          var s = document.createElement("script");
+          s.src = src;
+          s.onload = r;
+          s.onerror = j;
+          document.head.appendChild(s);
+        });
+      }
+      var fbP = null;
+      function save(data) {
+        if (!FIREBASE_CONFIG.apiKey) {
+          console.log("Request (Firebase not set up):", data);
+          return Promise.resolve();
+        }
+        if (!navigator.onLine) return Promise.reject(new Error("offline"));
+        var v = "https://www.gstatic.com/firebasejs/10.12.2/";
+        fbP =
+          fbP ||
+          load(v + "firebase-app-compat.js")
+            .then(function () {
+              return load(v + "firebase-firestore-compat.js");
+            })
+            .catch(function (e) {
+              fbP = null;
+              throw e;
+            });
+        var job = fbP.then(function () {
+          if (!firebase.apps.length) firebase.initializeApp(FIREBASE_CONFIG);
+          data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+          return firebase.firestore().collection("orders").add(data);
+        });
+        return Promise.race([
+          job,
+          new Promise(function (_, j) {
+            setTimeout(function () {
+              j(new Error("timeout"));
+            }, 15000);
+          }),
+        ]);
+      }
+
+      /* ---- splash ---- */
+      (function () {
+        var splash = $("#splash"),
+          bar = $("#bar"),
+          k = 1,
+          loaded = document.readyState === "complete",
+          done = false,
+          minDone = false;
+        try {
+          if (localStorage.getItem("shine_seen")) {
+            k = 0.55;
+            document.documentElement.style.setProperty("--k", k);
+          }
+          localStorage.setItem("shine_seen", "1");
+        } catch (e) {}
+        function leave() {
+          if (done) return;
+          done = true;
+          splash.classList.add("out");
+          setTimeout(function () {
+            $("#app").classList.add("show");
+          }, 350);
+          setTimeout(function () {
+            splash.style.display = "none";
+          }, 900);
+        }
+        function check() {
+          if (minDone && loaded) leave();
+          else if (minDone) bar.classList.add("on");
+        }
+        window.addEventListener("load", function () {
+          loaded = true;
+          check();
+        });
+        setTimeout(function () {
+          minDone = true;
+          check();
+        }, 3100 * k);
+        splash.addEventListener("click", leave);
+      })();
+      /* ---- install on phone ---- */
+      var dip = null,
+        inst = $("#inst"),
+        stand =
+          matchMedia("(display-mode: standalone)").matches ||
+          navigator.standalone,
+        ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
+      window.addEventListener("beforeinstallprompt", function (e) {
+        e.preventDefault();
+        dip = e;
+        if (!stand) inst.style.display = "flex";
+      });
+      window.addEventListener("appinstalled", function () {
+        inst.style.display = "none";
+        dip = null;
+      });
+      if (ios && !stand) inst.style.display = "flex";
+      inst.addEventListener("click", function () {
+        if (dip) {
+          dip.prompt();
+          dip.userChoice.then(function () {
+            dip = null;
+            inst.style.display = "none";
+          });
+        } else {
+          var h = $("#iosHint");
+          h.style.display = h.style.display === "block" ? "none" : "block";
+        }
+      });
+      if ("serviceWorker" in navigator && /^https?:/.test(location.protocol))
+        window.addEventListener("load", function () {
+          navigator.serviceWorker.register("sw.js").catch(function () {});
+        });
+      /* ---- offline bar + language ---- */
+      function net() {
+        $("#offline").classList.toggle("on", !navigator.onLine);
+      }
+      window.addEventListener("online", net);
+      window.addEventListener("offline", net);
+      net();
+      $("#lang").addEventListener("click", function () {
+        setLang(LANG === "am" ? "en" : "am");
+      });
+      $$("option").forEach(function (o) {
+        if (!o.hasAttribute("value")) o.value = o.textContent;
+      });
+      reveal($("#s-home .steps"));
+      setLang(LANG);
+      go("home");
+    </script>
+  </body>
+</html>
