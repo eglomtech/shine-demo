@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex">
+<title>Shine Catering Admin</title>
+<link rel="icon" href="images/icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Noto+Sans+Ethiopic:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--char:#26282B;--cream:#FBF7EE;--gold:#C9962B;--line:#E8E0CF;--sand:#F1E8D4;--bad:#B3261E;--ok:#2E7D4F}
+*{box-sizing:border-box;margin:0}body{font:15px/1.5 "DM Sans","Noto Sans Ethiopic",system-ui,sans-serif;background:var(--cream);color:var(--char);padding-bottom:40px}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}input,select,textarea{font:inherit;width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;background:#fff;color:var(--char)}
+.top{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--char);color:var(--cream)}
+.top b{font:italic 600 20px Georgia,serif;flex:1;white-space:nowrap}a.btn{text-decoration:none}.role{font-size:12px;background:var(--gold);color:#fff;border-radius:99px;padding:2px 10px;font-weight:700}
+.rt{display:flex;gap:8px}.pill{border:1px solid rgba(255,255,255,.35);border-radius:99px;padding:6px 14px;font-size:13px;color:var(--cream)}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding:12px 16px;max-width:1000px;margin:0 auto}.tabs button{flex:none;padding:9px 16px;border-radius:99px;background:#fff;border:1px solid var(--line);font-weight:700;font-size:14px}.tabs .on{background:var(--char);color:#fff;border-color:var(--char)}
+main{max-width:1000px;margin:0 auto;padding:4px 16px}
+h2{font:italic 600 26px Georgia,serif;margin:6px 0 12px}html[lang=am] h2{font-family:"Noto Sans Ethiopic",sans-serif;font-style:normal;font-weight:700}
+.chips{display:flex;gap:6px;overflow-x:auto;margin:8px 0}.chips button{flex:none;padding:7px 14px;border-radius:99px;border:1px solid var(--line);background:#fff;font-size:13px;font-weight:700}.chips .on{background:var(--gold);border-color:var(--gold);color:#fff}
+#olist{display:grid;gap:10px;margin-top:10px}.oc{display:block;width:100%;text-align:left;background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 16px;box-shadow:0 4px 12px rgba(38,40,43,.05)}.oc:active{transform:scale(.99)}
+.r1{display:flex;justify-content:space-between;gap:8px;align-items:center}.r2{font-size:13px;opacity:.75;margin-top:4px}
+.st{text-transform:capitalize;font-size:12px;font-weight:700;padding:2px 10px;border-radius:99px;border:1.5px solid}.st-new{color:#1d5fb4;border-color:#1d5fb4}.st-quoted{color:#9a6b00;border-color:#C9962B}.st-confirmed{color:#fff;background:var(--ok);border-color:var(--ok)}.st-cancelled{color:var(--bad);border-color:var(--bad)}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 20px;border-radius:99px;background:var(--gold);color:#fff;font-weight:700}.btn.dk{background:var(--char)}.btn.ln{background:none;border:1.5px solid var(--char);color:var(--char)}.btn.rd{background:var(--bad)}.btn[disabled]{opacity:.5}
+.ov{position:fixed;inset:0;background:rgba(20,20,22,.55);z-index:20;display:flex;align-items:flex-end;justify-content:center}.mb{background:var(--cream);width:100%;max-width:560px;max-height:92vh;overflow:auto;border-radius:24px 24px 0 0;padding:22px 20px 28px;position:relative}
+.x{position:absolute;right:14px;top:10px;font-size:30px;line-height:1}.kv{display:grid;grid-template-columns:130px 1fr;gap:4px 10px;margin:12px 0;font-size:14px}.kv span{opacity:.6}
+.box{background:var(--sand);border-radius:14px;padding:10px 14px;margin:10px 0;font-size:14px}.box b{display:block;margin-bottom:2px}.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}.cal .h{text-align:center;font-size:12px;opacity:.6}.d{aspect-ratio:1;border-radius:10px;background:#fff;border:1px solid var(--line);font-size:14px;position:relative}.d.blk{background:#f6d9d6;border-color:var(--bad)}.d.td{outline:2px solid var(--gold)}.d.sel{background:var(--char);color:#fff}
+.dc,.dq{position:absolute;bottom:5px;left:50%;width:8px;height:8px;border-radius:50%;margin-left:-4px}.dc{background:var(--ok)}.dq{background:none;border:2px solid var(--gold)}
+.cm{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}.cm button{font-size:24px;padding:4px 14px}
+table{width:100%;border-collapse:collapse;font-size:14px;background:#fff;border-radius:12px;overflow:hidden}th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line)}th{background:var(--sand);font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+.bar{background:var(--sand);border-radius:6px;height:10px;min-width:60px}.bar span{display:block;height:100%;background:var(--gold);border-radius:6px}.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:14px;overflow-x:auto}
+details{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:10px}summary{font-weight:700;cursor:pointer}.sc{display:grid;gap:6px;margin:10px 0;padding:10px;background:var(--sand);border-radius:12px}.sc .l{display:flex;gap:6px}
+label{display:block;font-weight:700;font-size:13px;margin:10px 0 4px}.fm{max-width:420px;margin:60px auto;padding:0 20px}.er{color:var(--bad);font-size:14px;margin-top:10px}.sub{font-size:13px;opacity:.7}
+#toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:var(--char);color:#fff;padding:10px 20px;border-radius:99px;opacity:0;transition:.3s;z-index:30;pointer-events:none}#toast.on{opacity:1;transform:translate(-50%,0)}
+.u{display:flex;justify-content:space-between;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:8px}
+@media(min-width:700px){#olist{grid-template-columns:1fr 1fr}.ov{align-items:center}.mb{border-radius:24px}}
+</style></head>
+<body><div id="root"></div><div id="toast"></div>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+var CFG={apiKey:"AIzaSyBItrNj7SebgB88xlnVO1I2Us67VV_rTgM",authDomain:"shine-catering.firebaseapp.com",projectId:"shine-catering",storageBucket:"shine-catering.firebasestorage.app",messagingSenderId:"121109086833",appId:"1:121109086833:web:d9a496d24f0680fb4551d0"};
+firebase.initializeApp(CFG);var auth=firebase.auth(),db=firebase.firestore(),FV=firebase.firestore.FieldValue;
+var $=function(s){return document.querySelector(s)};
+var L='en';try{L=localStorage.getItem('shine_admin_lang')==='am'?'am':'en'}catch(x){}
+var AM={'Email':'ኢሜይል','Password':'የይለፍ ቃል','Log in':'ግባ','Log out':'ውጣ','Wrong email or password':'ኢሜይሉ ወይም የይለፍ ቃሉ ትክክል አይደለም','This account has no access':'ይህ መለያ የመግባት ፈቃድ የለውም','Owner':'ባለቤት','Staff':'ሠራተኛ',
+'Orders':'ትዕዛዞች','Calendar':'የቀን መቁጠሪያ','Menu':'ምናሌ','Reports':'ሪፖርቶች','All':'ሁሉም','New':'አዲስ','Quoted':'ዋጋ ተሰጥቷል','Confirmed':'ተረጋግጧል','Cancelled':'ተሰርዟል','new':'አዲስ','quoted':'ዋጋ ተሰጥቷል','confirmed':'ተረጋግጧል','cancelled':'ተሰርዟል',
+'Search name, phone or date':'ስም፣ ስልክ ወይም ቀን ፈልግ','No orders found':'ምንም ትዕዛዝ አልተገኘም','guests':'እንግዶች','Call':'ደውል','Package':'ጥቅል','Request number':'የጥያቄ ቁጥር','Date':'ቀን','Time':'ሰዓት','Guests':'እንግዶች','Fasting guests':'የሚጾሙ እንግዶች','Service':'አገልግሎት','Venue':'ቦታ','Event type':'የዝግጅት ዓይነት','Dietary notes':'የአመጋገብ ማስታወሻ','Special requests':'ልዩ ጥያቄዎች','Best time to call':'ለመደወል የሚመች ሰዓት',
+'Removed dishes':'የተወገዱ ምግቦች','Swapped dishes':'የተቀየሩ ምግቦች','Customer own dishes':'ደንበኛው የጨመራቸው ምግቦች','Final price (ETB)':'የመጨረሻ ዋጋ (ብር)','Save as Quoted':'እንደ «ዋጋ ተሰጥቷል» አስቀምጥ','Mark Confirmed':'«ተረጋግጧል» አድርግ','Cancel order':'ትዕዛዙን ሰርዝ','Reopen as New':'እንደ አዲስ መልስ','Enter the final price first':'መጀመሪያ የመጨረሻውን ዋጋ ያስገቡ','Saved':'ተቀምጧል','Could not save':'ማስቀመጥ አልተቻለም','No permission or connection problem':'ፈቃድ ወይም የግንኙነት ችግር አለ',
+'Block this date':'ይህን ቀን ዝጋ','Unblock this date':'ይህን ቀን ክፈት','Blocked date':'የተዘጋ ቀን','No events on this day':'በዚህ ቀን ዝግጅት የለም','Confirmed event':'የተረጋገጠ ዝግጅት','Quoted event':'ዋጋ የተሰጠው ዝግጅት',
+'Import the current menu from the customer app':'አሁን ያለውን ምናሌ ከደንበኛ መተግበሪያ አስገባ','Save menu':'ምናሌውን አስቀምጥ','Add package':'ጥቅል ጨምር','Add section':'ክፍል ጨምር','Package name':'የጥቅሉ ስም','What is included':'የሚካተተው','Section name':'የክፍሉ ስም','One dish per line':'በእያንዳንዱ መስመር አንድ ምግብ','Delete':'ሰርዝ','Up':'ወደ ላይ','Down':'ወደ ታች','The menu is empty':'ምናሌው ባዶ ነው','Could not find the customer app file':'የደንበኛ መተግበሪያ ፋይል አልተገኘም','Menu saved. Customers see it now.':'ምናሌው ተቀምጧል። ደንበኞች አሁን ያዩታል።','Delete this package?':'ይህ ጥቅል ይሰረዝ?',
+'Orders per month':'በወር የትዕዛዝ ብዛት','Confirmed sales per month':'በወር የተረጋገጠ ሽያጭ','Most requested packages':'በብዛት የተጠየቁ ጥቅሎች','Customers':'ደንበኞች','Name':'ስም','Phone':'ስልክ','Orders count':'ትዕዛዞች','Confirmed total':'የተረጋገጠ ድምር','Repeat customer':'ተደጋጋሚ ደንበኛ','ETB':'ብር','No data yet':'ገና መረጃ የለም',
+'Staff accounts':'የሠራተኛ መለያዎች','Add staff':'ሠራተኛ ጨምር','Full name':'ሙሉ ስም','Password (6 or more characters)':'የይለፍ ቃል (6 ወይም ከዚያ በላይ ፊደላት)','Active':'ንቁ','Disabled':'ታግዷል','Disable':'አግድ','Enable':'አንቃ','Staff added':'ሠራተኛ ተጨምሯል','Could not add staff':'ሠራተኛ መጨመር አልተቻለም','Fill in all fields':'ሁሉንም መስኮች ይሙሉ','Remove':'አስወግድ','Loading…':'በመጫን ላይ…'};
+function t(s){return L==='am'&&AM[s]?AM[s]:s}
+function e(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+var SKIP_LOGIN=false;/* testing only: true opens the dashboard without login */
+var now=new Date(),S={u:null,role:'',tab:'orders',orders:[],quotes:{},blocked:[],users:[],menu:null,open:-1,filter:'all',q:'',sel:null,day:null,cal:{y:now.getFullYear(),m:now.getMonth()},err:'',busy:false},unsub=[];
+function owner(){return S.role==='owner'}
+function toast(m){var x=$('#toast');x.textContent=m;x.className='on';clearTimeout(toast.t);toast.t=setTimeout(function(){x.className=''},2600)}
+function slug(n){return n.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||('p'+Date.now())}
+function lbl(k){return t(k)}
+
+/* ---------- auth ---------- */
+auth.onAuthStateChanged(function(u){
+  if(SKIP_LOGIN)return;
+  unsub.forEach(function(f){f()});unsub=[];
+  if(!u){S.u=null;render();return}
+  db.doc('users/'+u.uid).get().then(function(d){
+    if(!d.exists||d.data().active===false){S.err='This account has no access';auth.signOut();return}
+    S.u=u;S.role=d.data().role==='owner'?'owner':'staff';S.err='';if(!owner())S.tab='orders';start();render();
+  }).catch(function(){S.err='This account has no access';auth.signOut()});
+});
+function start(){
+  S.errs={};
+  var bad=function(n){return function(er){S.errs[n]=(er&&er.code)||'error';var b=$('#banner');if(b)b.textContent=t('No permission or connection problem')+' → '+Object.keys(S.errs).map(function(k){return k+': '+S.errs[k]}).join(' · ')+' · ID: '+(S.u&&S.u.uid);toast(t('No permission or connection problem'))}};
+  unsub.push(db.collection('orders').orderBy('createdAt','desc').limit(500).onSnapshot(function(s){S.orders=s.docs.map(function(d){return Object.assign({id:d.id},d.data())});refresh()},bad('orders')));
+  if(!owner())return;
+  unsub.push(db.collection('quotes').onSnapshot(function(s){S.quotes={};s.docs.forEach(function(d){S.quotes[d.id]=+d.data().price||0});refresh()},bad('quotes')));
+  unsub.push(db.doc('settings/blocked').onSnapshot(function(d){S.blocked=d.exists?(d.data().dates||[]):[];refresh()},bad('settings')));
+  unsub.push(db.collection('users').onSnapshot(function(s){S.users=s.docs.map(function(d){return Object.assign({id:d.id},d.data())});refresh()},bad('users')));
+}
+function refresh(){if(!S.u)return;if(S.tab==='orders')drawOrders();else if(S.tab!=='menu')view()}
+
+/* ---------- shell ---------- */
+function render(){
+  document.documentElement.lang=L;
+  if(!S.u){$('#root').innerHTML='<div class="fm"><h2>Shine Catering</h2><label>'+t('Email')+'</label><input id="em" type="email" autocomplete="username"><label>'+t('Password')+'</label><input id="pw" type="password" autocomplete="current-password"><p class="er">'+(S.err?e(t(S.err)):'')+'</p><div class="acts"><button class="btn dk" id="login">'+t('Log in')+'</button><button class="btn ln" id="lang">'+(L==='am'?'EN':'አማ')+'</button></div></div>';return}
+  var tabs=['orders'].concat(owner()?['calendar','menu','reports','staff']:[]),names={orders:'Orders',calendar:'Calendar',menu:'Menu',reports:'Reports',staff:'Staff accounts'};
+  $('#root').innerHTML='<header class="top"><b>Shine Catering</b><span class="role">'+t(owner()?'Owner':'Staff')+'</span>'+(SKIP_LOGIN?'<span class="role" style="background:var(--bad)">Login off</span>':'')+'<div class="rt"><button class="pill" id="lang">'+(L==='am'?'EN':'አማ')+'</button>'+(SKIP_LOGIN?'':'<button class="pill" id="out">'+t('Log out')+'</button>')+'</div></header>'+
+  (tabs.length>1?'<nav class="tabs">'+tabs.map(function(k){return '<button data-tab="'+k+'"'+(S.tab===k?' class="on"':'')+'>'+t(names[k])+'</button>'}).join('')+'</nav>':'')+'<div class="er" id="banner" style="max-width:1000px;margin:0 auto;padding:0 16px;word-break:break-all"></div><main id="view"></main><div id="modal"></div>';
+  view();
+}
+function view(){var v={orders:vOrders,calendar:vCal,menu:vMenu,reports:vRep,staff:vStaff}[S.tab];$('#view').innerHTML='';v()}
+
+/* ---------- orders ---------- */
+function vOrders(){$('#view').innerHTML='<h2>'+t('Orders')+'</h2><div class="chips" id="chips"></div><input id="q" type="search" placeholder="'+e(t('Search name, phone or date'))+'" value="'+e(S.q)+'"><div id="olist"></div>';drawOrders()}
+function drawOrders(){
+  if(!$('#olist'))return;
+  var st=['all','new','quoted','confirmed','cancelled'],cnt=function(k){return S.orders.filter(function(o){return k==='all'||o.status===k}).length};
+  $('#chips').innerHTML=st.map(function(k){return '<button data-f="'+k+'"'+(S.filter===k?' class="on"':'')+'>'+t(k==='all'?'All':k.charAt(0).toUpperCase()+k.slice(1))+' ('+cnt(k)+')</button>'}).join('');
+  var q=S.q.trim().toLowerCase(),list=S.orders.filter(function(o){if(S.filter!=='all'&&o.status!==S.filter)return false;var c=o.customer||{},v=o.event||{};return !q||(c.name+' '+c.phone+' '+v.date+' '+o.package+' '+o.id.slice(0,6)).toLowerCase().indexOf(q)>-1});
+  $('#olist').innerHTML=list.length?list.map(function(o){var c=o.customer||{},v=o.event||{};return '<button class="oc" data-o="'+o.id+'"><div class="r1"><b>'+e(c.name)+'</b><span class="st st-'+o.status+'">'+t(o.status)+'</span></div><div class="r2">'+e(v.date)+' · '+e(v.time)+' · '+e(v.guests)+' '+t('guests')+'<br>'+e(o.package)+'</div></button>'}).join(''):'<p class="sub">'+t('No orders found')+'</p>';
+}
+function openOrder(id){S.sel=id;var o=S.orders.filter(function(x){return x.id===id})[0];if(!o)return;
+  var c=o.customer||{},v=o.event||{},li=function(h,a){return a&&a.length?'<div class="box"><b>'+t(h)+'</b>'+a.map(e).join('<br>')+'</div>':''};
+  var rows=[['Request number',o.id.slice(0,6).toUpperCase()],['Package',o.package],['Date',v.date],['Time',v.time],['Guests',v.guests],['Fasting guests',v.fastingGuests],['Service',v.service],['Venue',v.venue],['Event type',v.type],['Dietary notes',v.dietary],['Special requests',v.requests],['Best time to call',c.bestTimeToCall]];
+  $('#modal').innerHTML='<div class="ov" data-close><div class="mb"><button class="x" data-close>×</button><h2>'+e(c.name)+'</h2><span class="st st-'+o.status+'">'+t(o.status)+'</span> <a class="btn" style="margin-left:8px" href="tel:'+e(c.phone)+'">'+t('Call')+' '+e(c.phone)+'</a>'+
+  '<div class="kv">'+rows.map(function(r){return r[1]!==''&&r[1]!=null?'<span>'+t(r[0])+'</span><div>'+e(r[1])+'</div>':''}).join('')+'</div>'+
+  li('Removed dishes',o.removed)+li('Swapped dishes',(o.swapped||[]).map(function(s){return s.from+' → '+s.to}))+li('Customer own dishes',o.custom)+
+  (owner()?'<label>'+t('Final price (ETB)')+'</label><input id="price" type="number" min="0" inputmode="numeric" value="'+(S.quotes[id]||'')+'"><div class="acts"><button class="btn dk" data-st="quoted">'+t('Save as Quoted')+'</button><button class="btn" data-st="confirmed">'+t('Mark Confirmed')+'</button>'+(o.status==='new'?'':'<button class="btn ln" data-st="new">'+t('Reopen as New')+'</button>')+'<button class="btn rd" data-st="cancelled">'+t('Cancel order')+'</button></div>':'')+'</div></div>';
+}
+function setStatus(st){
+  var id=S.sel,p=+($('#price')&&$('#price').value||0)||S.quotes[id]||0;
+  if((st==='quoted'||st==='confirmed')&&!(p>0))return toast(t('Enter the final price first'));
+  var ops=[];if(p>0&&p!==S.quotes[id])ops.push(db.doc('quotes/'+id).set({price:p,updatedAt:FV.serverTimestamp()}));
+  ops.push(db.doc('orders/'+id).update({status:st,updatedAt:FV.serverTimestamp()}));
+  Promise.all(ops).then(function(){S.sel=null;$('#modal').innerHTML='';toast(t('Saved'))}).catch(function(){toast(t('Could not save'))});
+}
+
+/* ---------- calendar ---------- */
+function pad(n){return (n<10?'0':'')+n}
+function vCal(){
+  var y=S.cal.y,m=S.cal.m,first=(new Date(y,m,1).getDay()+6)%7,days=new Date(y,m+1,0).getDate(),by={};
+  S.orders.forEach(function(o){var d=o.event&&o.event.date;if(d&&(o.status==='confirmed'||o.status==='quoted')){(by[d]=by[d]||[]).push(o)}});
+  var wk=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],today=now.getFullYear()+'-'+pad(now.getMonth()+1)+'-'+pad(now.getDate()),cells='';
+  for(var i=0;i<first;i++)cells+='<span></span>';
+  for(var d=1;d<=days;d++){var k=y+'-'+pad(m+1)+'-'+pad(d),ev=by[k]||[],cf=ev.some(function(o){return o.status==='confirmed'});
+    cells+='<button class="d'+(S.blocked.indexOf(k)>-1?' blk':'')+(k===today?' td':'')+(S.day===k?' sel':'')+'" data-d="'+k+'">'+d+(ev.length?'<i class="'+(cf?'dc':'dq')+'"></i>':'')+'</button>'}
+  var title=new Date(y,m,1).toLocaleDateString(L==='am'?'am-ET':'en-GB',{month:'long',year:'numeric'});
+  var dayHtml='';if(S.day){var ev2=by[S.day]||[],bl=S.blocked.indexOf(S.day)>-1;
+    dayHtml='<div class="card"><b>'+e(S.day)+'</b>'+(bl?' · <span class="st st-cancelled">'+t('Blocked date')+'</span>':'')+(ev2.length?ev2.map(function(o){return '<button class="oc" style="margin-top:8px" data-o="'+o.id+'"><div class="r1"><b>'+e(o.customer.name)+'</b><span class="st st-'+o.status+'">'+t(o.status)+'</span></div><div class="r2">'+e(o.event.time)+' · '+e(o.event.guests)+' '+t('guests')+' · '+e(o.package)+'</div></button>'}).join(''):'<p class="sub">'+t('No events on this day')+'</p>')+'<div class="acts"><button class="btn '+(bl?'ln':'dk')+'" data-blk="'+S.day+'">'+t(bl?'Unblock this date':'Block this date')+'</button></div></div>'}
+  $('#view').innerHTML='<h2>'+t('Calendar')+'</h2><div class="cm"><button data-cm="-1">‹</button><b>'+title+'</b><button data-cm="1">›</button></div><div class="cal">'+wk.map(function(w){return '<span class="h">'+w+'</span>'}).join('')+cells+'</div><p class="sub" style="margin:10px 0"><i class="dc" style="position:static;display:inline-block;margin:0 4px 0 0"></i>'+t('Confirmed event')+' &nbsp; <i class="dq" style="position:static;display:inline-block;margin:0 4px 0 0"></i>'+t('Quoted event')+'</p>'+dayHtml;
+}
+
+/* ---------- menu editor ---------- */
+function toEd(P){return P.map(function(p){return{id:p.id,n:p.n,inc:p.inc||'',secs:Object.keys(p.s).map(function(k){return{n:k,d:p.s[k].split('|').join('\n')}})}})}
+function vMenu(){
+  if(S.menu===null){$('#view').innerHTML='<p class="sub">'+t('Loading…')+'</p>';db.doc('menu/main').get().then(function(d){S.menu=[];try{if(d.exists)S.menu=toEd(JSON.parse(d.data().json))}catch(x){}if(S.tab==='menu')vMenu()}).catch(function(){S.menu=[];toast(t('No permission or connection problem'));vMenu()});return}
+  var M=S.menu;
+  $('#view').innerHTML='<h2>'+t('Menu')+'</h2><div class="acts" style="margin:0 0 12px"><button class="btn ln" data-m="import">'+t('Import the current menu from the customer app')+'</button></div>'+(M.length?'':'<p class="sub">'+t('The menu is empty')+'</p>')+
+  M.map(function(p,i){return '<details'+(S.open===i?' open':'')+'><summary>'+e(p.n||'—')+'</summary><label>'+t('Package name')+'</label><input data-pk="'+i+'" data-k="n" value="'+e(p.n)+'"><label>'+t('What is included')+'</label><input data-pk="'+i+'" data-k="inc" value="'+e(p.inc)+'">'+
+  p.secs.map(function(s,j){return '<div class="sc"><div class="l"><input data-pk="'+i+'" data-sj="'+j+'" data-k="sn" placeholder="'+e(t('Section name'))+'" value="'+e(s.n)+'"><button class="btn rd" style="padding:8px 14px" data-m="dsec" data-i="'+i+'" data-j="'+j+'">×</button></div><textarea rows="5" data-pk="'+i+'" data-sj="'+j+'" data-k="sd" placeholder="'+e(t('One dish per line'))+'">'+e(s.d)+'</textarea></div>'}).join('')+
+  '<div class="acts"><button class="btn ln" data-m="asec" data-i="'+i+'">'+t('Add section')+'</button><button class="btn ln" data-m="up" data-i="'+i+'">↑ '+t('Up')+'</button><button class="btn ln" data-m="down" data-i="'+i+'">↓ '+t('Down')+'</button><button class="btn rd" data-m="dpk" data-i="'+i+'">'+t('Delete')+'</button></div></details>'}).join('')+
+  '<div class="acts"><button class="btn ln" data-m="apk">'+t('Add package')+'</button><button class="btn dk" data-m="save">'+t('Save menu')+'</button></div>';
+}
+function menuAction(a,i,j){
+  var M=S.menu;i=+i;j=+j;
+  if(a==='apk'){M.push({id:'',n:'',inc:'',secs:[{n:'',d:''}]});S.open=M.length-1}
+  if(a==='asec'){M[i].secs.push({n:'',d:''});S.open=i}
+  if(a==='dsec'){M[i].secs.splice(j,1);S.open=i}
+  if(a==='dpk'){if(!confirm(t('Delete this package?')))return;M.splice(i,1);S.open=-1}
+  if(a==='up'&&i>0){var x=M.splice(i,1)[0];M.splice(i-1,0,x);S.open=i-1}
+  if(a==='down'&&i<M.length-1){var y=M.splice(i,1)[0];M.splice(i+1,0,y);S.open=i+1}
+  if(a==='import')return importMenu();
+  if(a==='save')return saveMenu();
+  vMenu();
+}
+function importMenu(){
+  var urls=['index.html','shine-app.html'];
+  (function next(k){
+    if(k>=urls.length)return toast(t('Could not find the customer app file'));
+    fetch(urls[k]+'?'+Date.now()).then(function(r){return r.ok?r.text():Promise.reject()}).then(function(txt){
+      var a=txt.indexOf('var P=['),b=txt.indexOf('\n];',a);S.menu=toEd((new Function('return '+txt.slice(a+6,b+2)))());S.open=-1;vMenu();
+    }).catch(function(){next(k+1)});
+  })(0);
+}
+function saveMenu(){
+  var used={},P=S.menu.filter(function(p){return p.n.trim()}).map(function(p){var id=p.id||slug(p.n);while(used[id])id+='-2';used[id]=1;var s={};
+    p.secs.forEach(function(x){var d=x.d.split('\n').map(function(l){return l.trim()}).filter(Boolean);if(x.n.trim()&&d.length)s[x.n.trim()]=d.join('|')});
+    return{id:id,n:p.n.trim(),inc:p.inc.trim(),s:s}});
+  db.doc('menu/main').set({json:JSON.stringify(P),updatedAt:FV.serverTimestamp()}).then(function(){S.menu=toEd(P);toast(t('Menu saved. Customers see it now.'))}).catch(function(){toast(t('Could not save'))});
+}
+
+/* ---------- reports ---------- */
+function mk(d){return d?String(d).slice(0,7):''}
+function vRep(){
+  var os=S.orders.filter(function(o){return o.status!=='cancelled'}),cnt={},sales={},pk={},cu={};
+  os.forEach(function(o){var c=o.createdAt&&o.createdAt.toDate?o.createdAt.toDate():null,m=c?c.getFullYear()+'-'+pad(c.getMonth()+1):mk(o.event&&o.event.date);if(m)cnt[m]=(cnt[m]||0)+1;
+    pk[o.package]=(pk[o.package]||0)+1;
+    var ph=String((o.customer||{}).phone||'').replace(/\D/g,'').slice(-9)||o.id,r=cu[ph]=cu[ph]||{n:o.customer&&o.customer.name,p:o.customer&&o.customer.phone,c:0,s:0};r.c++;
+    if(o.status==='confirmed'){var em=mk(o.event&&o.event.date),pr=S.quotes[o.id]||0;if(em)sales[em]=(sales[em]||0)+pr;r.s+=pr}});
+  var bars=function(obj,money){var k=Object.keys(obj).sort(),mx=Math.max.apply(null,k.map(function(x){return obj[x]}).concat([1]));return k.length?'<table>'+k.map(function(x){return '<tr><td>'+e(x)+'</td><td style="width:55%"><div class="bar"><span style="width:'+Math.round(obj[x]/mx*100)+'%"></span></div></td><td><b>'+(money?obj[x].toLocaleString()+' '+t('ETB'):obj[x])+'</b></td></tr>'}).join('')+'</table>':'<p class="sub">'+t('No data yet')+'</p>'};
+  var pkSorted={};Object.keys(pk).sort(function(a,b){return pk[b]-pk[a]}).forEach(function(k){pkSorted[k]=pk[k]});
+  var cus=Object.keys(cu).map(function(k){return cu[k]}).sort(function(a,b){return b.c-a.c||b.s-a.s});
+  $('#view').innerHTML='<h2>'+t('Reports')+'</h2><div class="card"><b>'+t('Orders per month')+'</b>'+bars(cnt)+'</div><div class="card"><b>'+t('Confirmed sales per month')+'</b>'+bars(sales,1)+'</div>'+
+  '<div class="card"><b>'+t('Most requested packages')+'</b>'+(Object.keys(pkSorted).length?'<table>'+Object.keys(pkSorted).map(function(k){return '<tr><td>'+e(k)+'</td><td><b>'+pkSorted[k]+'</b></td></tr>'}).join('')+'</table>':'<p class="sub">'+t('No data yet')+'</p>')+'</div>'+
+  '<div class="card"><b>'+t('Customers')+'</b><table><tr><th>'+t('Name')+'</th><th>'+t('Phone')+'</th><th>'+t('Orders count')+'</th><th>'+t('Confirmed total')+'</th></tr>'+cus.map(function(r){return '<tr><td>'+e(r.n)+(r.c>1?' <span class="st st-quoted">'+t('Repeat customer')+'</span>':'')+'</td><td><a href="tel:'+e(r.p)+'">'+e(r.p)+'</a></td><td>'+r.c+'</td><td>'+r.s.toLocaleString()+'</td></tr>'}).join('')+'</table></div>';
+}
+
+/* ---------- staff ---------- */
+function vStaff(){
+  $('#view').innerHTML='<h2>'+t('Staff accounts')+'</h2>'+S.users.map(function(u){var me=S.u&&u.id===S.u.uid;return '<div class="u"><div><b>'+e(u.name)+'</b> <span class="role" style="background:'+(u.role==='owner'?'var(--gold)':'var(--char)')+'">'+t(u.role==='owner'?'Owner':'Staff')+'</span><div class="sub">'+e(u.email)+' · '+t(u.active===false?'Disabled':'Active')+'</div></div>'+(u.role==='owner'||me?'':'<div class="acts" style="margin:0"><button class="btn ln" style="padding:8px 14px" data-u="'+u.id+'" data-a="'+(u.active===false?'on':'off')+'">'+t(u.active===false?'Enable':'Disable')+'</button><button class="btn rd" style="padding:8px 14px" data-u="'+u.id+'" data-a="del">'+t('Remove')+'</button></div>')+'</div>'}).join('')+
+  '<div class="card" style="margin-top:16px"><b>'+t('Add staff')+'</b><label>'+t('Full name')+'</label><input id="sn"><label>'+t('Email')+'</label><input id="se" type="email"><label>'+t('Password (6 or more characters)')+'</label><input id="sp" type="password" autocomplete="new-password"><div class="acts"><button class="btn dk" id="sadd">'+t('Add staff')+'</button></div></div>';
+}
+function addStaff(){
+  var n=$('#sn').value.trim(),m=$('#se').value.trim(),p=$('#sp').value;
+  if(!n||!m||p.length<6)return toast(t('Fill in all fields'));
+  var a2=firebase.apps.filter(function(x){return x.name==='sec'})[0]||firebase.initializeApp(CFG,'sec');
+  a2.auth().createUserWithEmailAndPassword(m,p).then(function(c){var uid=c.user.uid;return a2.auth().signOut().then(function(){return db.doc('users/'+uid).set({role:'staff',name:n,email:m,active:true,createdAt:FV.serverTimestamp()})})}).then(function(){toast(t('Staff added'))}).catch(function(){toast(t('Could not add staff'))});
+}
+
+/* ---------- events ---------- */
+document.addEventListener('click',function(ev){
+  var el=ev.target,g=function(a){return el.closest(a)},n;
+  if(el.dataset&&el.dataset.close!==undefined&&(el===ev.target)){S.sel=null;$('#modal').innerHTML='';return}
+  if(el.id==='login'){var em=$('#em').value.trim(),pw=$('#pw').value;S.err='';auth.signInWithEmailAndPassword(em,pw).catch(function(){S.err='Wrong email or password';render()});return}
+  if(el.id==='lang'){L=L==='am'?'en':'am';try{localStorage.setItem('shine_admin_lang',L)}catch(x){}render();return}
+  if(el.id==='out'){auth.signOut();return}
+  if(el.id==='sadd'){addStaff();return}
+  if((n=g('[data-tab]'))){S.tab=n.dataset.tab;render();return}
+  if((n=g('[data-f]'))&&n.closest('#chips')){S.filter=n.dataset.f;drawOrders();return}
+  if((n=g('[data-o]'))){openOrder(n.dataset.o);return}
+  if((n=g('[data-st]'))){setStatus(n.dataset.st);return}
+  if((n=g('[data-cm]'))){S.cal.m+=+n.dataset.cm;if(S.cal.m<0){S.cal.m=11;S.cal.y--}if(S.cal.m>11){S.cal.m=0;S.cal.y++}vCal();return}
+  if((n=g('[data-d]'))){S.day=n.dataset.d;vCal();return}
+  if((n=g('[data-blk]'))){var d=n.dataset.blk;db.doc('settings/blocked').set({dates:S.blocked.indexOf(d)>-1?FV.arrayRemove(d):FV.arrayUnion(d)},{merge:true}).catch(function(){toast(t('Could not save'))});return}
+  if((n=g('[data-m]'))){menuAction(n.dataset.m,n.dataset.i,n.dataset.j);return}
+  if((n=g('[data-u]'))){var id=n.dataset.u,a=n.dataset.a;(a==='del'?db.doc('users/'+id).delete():db.doc('users/'+id).update({active:a==='on'})).catch(function(){toast(t('Could not save'))});return}
+});
+document.addEventListener('input',function(ev){
+  var el=ev.target;
+  if(el.id==='q'){S.q=el.value;drawOrders();return}
+  if(el.dataset&&el.dataset.pk!==undefined&&S.menu){var p=S.menu[+el.dataset.pk],k=el.dataset.k;if(k==='n')p.n=el.value;else if(k==='inc')p.inc=el.value;else{var s=p.secs[+el.dataset.sj];if(k==='sn')s.n=el.value;else s.d=el.value}}
+});
+document.addEventListener('keydown',function(ev){if(ev.key==='Enter'&&(ev.target.id==='em'||ev.target.id==='pw'))document.querySelector('#login').click()});
+if(SKIP_LOGIN){S.u={uid:'local'};S.role='owner';start()}
+render();
+</script></body></html>
